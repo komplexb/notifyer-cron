@@ -1,0 +1,20 @@
+{
+  "name": "notifyer-cron",
+  "version": "1.0.0",
+  "description": "Notifyer as a Serverless Service/Daemon",
+  "main": "handler.js",
+  "scripts": {
+    "dev": "sls offline start --port 4500",
+    "test": "jest"
+  },
+  "author": "Byron Buckley",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.1",
+    "serverless-offline": "^6.8.0",
+    "supertest": "^5.0.0"
+  },
+  "dependencies": {
+    "superagent": "^6.1.0"
+  }
+}
