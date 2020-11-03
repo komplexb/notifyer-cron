@@ -15,6 +15,7 @@
     "supertest": "^5.0.0"
   },
   "dependencies": {
+    "@azure/msal-node": "^1.0.0-alpha.14",
     "superagent": "^6.1.0"
   }
 }
