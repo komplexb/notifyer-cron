@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@azure/msal-node": "^1.0.0-alpha.14",
+    "chance": "^1.1.7",
+    "node-localstorage": "^2.1.6",
     "superagent": "^6.1.0"
   }
 }

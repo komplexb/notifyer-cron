@@ -78,6 +78,7 @@ functions:
       NOTIFYER_CLIENT_ID: ${ssm:/notifyer-client-id~true}
       NOTIFYER_TENANT_ID: ${ssm:/notifyer-tenant-id~true}
       NOTIFYER_CLIENT_SECRET: ${ssm:/notifyer-client-secret~true}
+      NOTIFYER_SECTION: 'Quotes'
 #      - http:
 #          path: users/create
 #          method: get
