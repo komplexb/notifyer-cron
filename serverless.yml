@@ -73,6 +73,7 @@ functions:
       PUSHBULLET_ACCESS_TOKEN: ${ssm:/pb-access-token~true}
       PUSHBULLET_PUSH: 'https://api.pushbullet.com/v2/pushes'
       MS_GRAPH_HOST: 'login.microsoftonline.com'
+      MS_GRAPH_AUTHORITY: 'https://login.microsoftonline.com/common'
       MS_GRAPH_ROOT: 'https://graph.microsoft.com/v1.0/me'
       MS_GRAPH_DEFAULT_SCOPE: 'https://graph.microsoft.com/.default'
       NOTIFYER_CLIENT_ID: ${ssm:/notifyer-client-id~true}
