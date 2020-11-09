@@ -1,17 +1,20 @@
-const {deviceLogin} = require('./lib/auth');
+const {deviceLogin, hasValidToken} = require('./lib/auth');
 const {getRandomNote} = require('./lib/onenote');
-const {push} = require('./lib/pushbullet');
+const {notify} = require('./lib/pushbullet');
 
 const app = async (event, context) => {
-  // return push
-  // await deviceLogin()
+  // establish how to validate authentication
+  if(!hasValidToken()) {
+    await deviceLogin()
+  }
+
   return getRandomNote()
     .then((note) => {
       if (typeof note === 'undefined') {
         throw new Error()
       } else {
         // console.log(note)
-        push(note)
+        notify(note)
       }
     })
     .catch((err) => {
