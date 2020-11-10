@@ -81,6 +81,8 @@ functions:
       NOTIFYER_TENANT_ID: ${ssm:/notifyer-tenant-id~true}
       NOTIFYER_CLIENT_SECRET: ${ssm:/notifyer-client-secret~true}
       NOTIFYER_SECTION: 'Quotes'
+      ONENOTE_CLIENT: ${ssm:/open-in-onenote~split}
+      CACHE_PATH: 'scratch/cache.json'
 #      - http:
 #          path: users/create
 #          method: get
