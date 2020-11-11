@@ -3,7 +3,6 @@ const {getRandomNote} = require('./lib/onenote');
 const {notify} = require('./lib/pushbullet');
 
 const app = async (event, context) => {
-  // establish how to validate authentication
   if(!hasValidToken()) {
     await deviceLogin()
   }
