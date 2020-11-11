@@ -13,7 +13,7 @@ const app = async (event, context) => {
         throw new Error()
       } else {
         // console.log(note)
-        notify(note)
+        return notify(note)
       }
     })
     .catch((err) => {
