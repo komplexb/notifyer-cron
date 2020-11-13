@@ -5,7 +5,9 @@
   "main": "handler.js",
   "scripts": {
     "dev": "sls offline start --port 4500",
+    "local": "sls invoke local",
     "deploy": "sls deploy --stage prod",
+    "remove": "sls remove --stage prod",
     "test": "jest"
   },
   "author": "Byron Buckley",
