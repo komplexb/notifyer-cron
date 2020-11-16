@@ -32,7 +32,6 @@ provider:
     STAGE: ${opt:stage, self:provider.stage}
     REGION: ${opt:region, self:provider.region}
     DYNAMODB_TABLE: notifyer
-    DEFAULT_USER: byronbuckley@live.com
 
   iamRoleStatements:
     - Effect: "Allow"

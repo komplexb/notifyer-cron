@@ -2,8 +2,16 @@ const {deviceLogin, hasValidToken} = require('./lib/auth');
 const {getRandomNote} = require('./lib/onenote');
 const {notify} = require('./lib/pushbullet');
 const { promises: fs } = require("fs");
+const db = require('./db/persist')
 
-function initCache() {
+async function initCache() {
+  const prefix = process.env.STAGE === 'prod' ? '/' : './'
+  const cachePath = `${prefix}${process.env.CACHE_PATH}`;
+
+  // populate cache with db contents
+  const data = await db.getItem('cache')
+  await fs.writeFile(cachePath, data)
+
   /* fs.copyFile('./tmp/onenote', '/tmp/onenote')
   .then(() => console.log('"onenote" was copied to tmp'))
   .catch(() => console.log('"onenote" could not be copied'))
@@ -14,9 +22,7 @@ function initCache() {
 }
 
 const app = async (event, context) => {
-  if(process.env.STAGE === 'prod') {
-    initCache()
-  }
+  await initCache()
 
   if(!hasValidToken()) {
     await deviceLogin()
