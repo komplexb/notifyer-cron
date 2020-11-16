@@ -30,6 +30,17 @@ provider:
   profile: serverless
   environment:
     STAGE: ${opt:stage, self:provider.stage}
+    REGION: ${opt:region, self:provider.region}
+    DYNAMODB_TABLE: notifyer
+    DEFAULT_USER: byronbuckley@live.com
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:PutItem
+      Resource: "arn:aws:dynamodb:*:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 # you can add packaging information here
 #package:
@@ -39,14 +50,42 @@ provider:
 #  exclude:
 #    - exclude-me.js
 #    - exclude-me-dir/**
+resources:
+  Resources:
+    notifyerTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: user
+            AttributeType: S
+        KeySchema:
+          - AttributeName: user
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        # consider BillingMode: PAY_PER_REQUEST
+        # https://www.serverless.com/blog/dynamodb-on-demand-serverless
+
 plugins:
+  # - serverless-webpack
+  - serverless-dynamodb-local
   - serverless-offline
 
 functions:
+  refreshToken:
+    handler: refreshToken.app
+    events:
+      - schedule: rate(59 minutes)
+
   app:
     handler: handler.app
-    events: ${file(events.yml):${self:custom.stage}}
-    environment: ${file(env.yml):${self:custom.stage}}
+    events: ${file(events.yml):${self:provider.stage}}
+    environment: ${file(env.yml):${self:provider.stage}}
 
 custom:
-  stage: ${opt:stage, self:provider.stage}
+  dynamodb:
+  # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev

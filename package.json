@@ -5,9 +5,11 @@
   "main": "handler.js",
   "scripts": {
     "dev": "sls offline start --port 4500",
-    "local": "sls invoke local",
+    "-prelocal": "sls dynamodb start --migrate",
+    "local": "sls invoke local -f app",
     "deploy": "sls deploy --stage prod",
     "remove": "sls remove --stage prod",
+    "logs": "sls logs -f app --tail",
     "test": "jest"
   },
   "author": "Byron Buckley",
@@ -19,8 +21,10 @@
   },
   "dependencies": {
     "@azure/msal-node": "^1.0.0-alpha.14",
+    "aws-sdk": "^2.792.0",
     "chance": "^1.1.7",
     "node-localstorage": "^2.1.6",
+    "serverless-dynamodb-local": "^0.2.39",
     "superagent": "^6.1.0"
   }
 }
