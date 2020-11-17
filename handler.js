@@ -1,6 +1,7 @@
 const {deviceLogin, hasValidToken} = require('./lib/auth');
 const {getRandomNote} = require('./lib/onenote');
 const {notify} = require('./lib/pushbullet');
+const storage = require('./lib/store')
 const { promises: fs } = require("fs");
 const db = require('./db/persist')
 
@@ -12,13 +13,11 @@ async function initCache() {
   const data = await db.getItem('cache')
   await fs.writeFile(cachePath, data)
 
-  /* fs.copyFile('./tmp/onenote', '/tmp/onenote')
-  .then(() => console.log('"onenote" was copied to tmp'))
-  .catch(() => console.log('"onenote" could not be copied'))
-
-  fs.copyFile('./tmp/cache.json', '/tmp/cache.json')
-  .then(() => console.log('"cache.json" was copied to tmp'))
-  .catch(() => console.log('"cache.json" could not be copied')) */
+  // populate local storage with login contents
+  // coherced to json
+  const onenote = await db.getItem('onenote', true)
+  // console.log('init', onenote)
+  storage.setItem('onenote', onenote)
 }
 
 const app = async (event, context) => {
