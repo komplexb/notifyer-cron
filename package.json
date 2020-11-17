@@ -17,14 +17,14 @@
   "devDependencies": {
     "jest": "^26.6.1",
     "serverless-offline": "^6.8.0",
+    "serverless-dynamodb-local": "^0.2.39",
+    "aws-sdk": "^2.792.0",
     "supertest": "^5.0.0"
   },
   "dependencies": {
     "@azure/msal-node": "^1.0.0-alpha.14",
-    "aws-sdk": "^2.792.0",
     "chance": "^1.1.7",
     "node-localstorage": "^2.1.6",
-    "serverless-dynamodb-local": "^0.2.39",
     "superagent": "^6.1.0"
   }
 }
