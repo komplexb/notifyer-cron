@@ -4,9 +4,9 @@
   "description": "Notifyer as a Serverless Service/Daemon",
   "main": "handler.js",
   "scripts": {
-    "dev": "sls offline start --port 4500",
-    "-prelocal": "sls dynamodb start --migrate",
+    "dev": "sls invoke local -f app --watch",
     "app": "sls invoke local -f app",
+    "-prelocal": "sls dynamodb start --migrate",
     "refresh": "sls invoke local -f refresh",
     "deploy": "sls deploy --stage prod",
     "remove": "sls remove --stage prod",
@@ -17,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "aws-sdk": "^2.792.0",
+    "copy-webpack-plugin": "^6.3.1",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-prettier-standard": "^3.0.1",
@@ -31,8 +32,10 @@
     "prettier-config-standard": "^1.0.1",
     "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.8.0",
+    "serverless-webpack": "^5.3.5",
     "standard": "^16.0.3",
-    "supertest": "^5.0.0"
+    "supertest": "^5.0.0",
+    "webpack": "^5.5.0"
   },
   "dependencies": {
     "@azure/msal-node": "^1.0.0-alpha.14",

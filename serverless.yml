@@ -41,8 +41,9 @@ provider:
 
 # you can add packaging information here
 package:
- exclude:
-   - .dynamodb/**
+  individually: true
+  exclude:
+    - .dynamodb/**
 # https://www.serverless.com/framework/docs/providers/aws/guide/resources/#aws---resources
 # resources:
 #   Resources:
@@ -63,7 +64,7 @@ package:
         # https://www.serverless.com/blog/dynamodb-on-demand-serverless
 
 plugins:
-  # - serverless-webpack
+  - serverless-webpack
   # - serverless-dynamodb-local
   - serverless-offline
 
@@ -79,7 +80,10 @@ functions:
     handler: handler.app
     events: ${file(events.yml):${self:provider.stage}}
 
-# custom:
+custom:
+  webpack:
+    includeModules: false
+
 #   dynamodb:
 #   # If you only want to use DynamoDB Local in some stages, declare them here
 #     stages:
