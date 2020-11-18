@@ -7,5 +7,5 @@ dev:
   - schedule: rate(1 minute)
 
 prod:
-  - schedule: rate(15 minutes)
-  # - schedule: cron(0 6 ? * MON-FRI *)
+  - schedule: cron(0 19 ? * MON-FRI *) # 6AM
+  - schedule: cron(0 2 ? * MON-FRI *) # 1PM
