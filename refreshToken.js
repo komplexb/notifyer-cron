@@ -1,9 +1,9 @@
 const {refreshToken} = require('./lib/auth');
 
-const app = async (event, context) => {
+const refresh = async (event, context) => {
   return refreshToken()
 };
 
 module.exports = {
-  app,
+  refresh,
 };

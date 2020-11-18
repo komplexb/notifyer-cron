@@ -23,16 +23,14 @@ frameworkVersion: '2'
 provider:
   name: aws
   runtime: nodejs12.x
+  memorySize: 512 # optional, in MB, default is 1024
+  timeout: 60
 
 # you can overwrite defaults here
   stage: ${opt:stage,'dev'}
   region: ap-southeast-2
   profile: serverless
-  environment:
-    STAGE: ${opt:stage, self:provider.stage}
-    REGION: ${opt:region, self:provider.region}
-    DYNAMODB_TABLE: notifyer
-
+  environment: ${file(env.yml):${self:provider.stage}}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -43,27 +41,24 @@ provider:
 
 # you can add packaging information here
 package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
  exclude:
-  #  - exclude-me.js
    - .dynamodb/**
-resources:
-  Resources:
-    notifyerTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
-        AttributeDefinitions:
-          - AttributeName: user
-            AttributeType: S
-        KeySchema:
-          - AttributeName: user
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+# https://www.serverless.com/framework/docs/providers/aws/guide/resources/#aws---resources
+# resources:
+#   Resources:
+#     notifyerTable:
+#       Type: AWS::DynamoDB::Table
+#       Properties:
+#         TableName: ${self:provider.environment.DYNAMODB_TABLE}
+#         AttributeDefinitions:
+#           - AttributeName: user
+#             AttributeType: S
+#         KeySchema:
+#           - AttributeName: user
+#             KeyType: HASH
+#         ProvisionedThroughput:
+#           ReadCapacityUnits: 1
+#           WriteCapacityUnits: 1
         # consider BillingMode: PAY_PER_REQUEST
         # https://www.serverless.com/blog/dynamodb-on-demand-serverless
 
@@ -72,16 +67,17 @@ plugins:
   # - serverless-dynamodb-local
   - serverless-offline
 
+# https://www.serverless.com/framework/docs/providers/aws/guide/functions/
 functions:
-  refreshToken:
-    handler: refreshToken.app
-    events:
-      - schedule: rate(59 minutes)
+  # refresh:
+  #   handler: handler.refresh
+  #   timeout: 10
+  #   events:
+  #     - schedule: rate(59 minutes)
 
   app:
     handler: handler.app
     events: ${file(events.yml):${self:provider.stage}}
-    environment: ${file(env.yml):${self:provider.stage}}
 
 # custom:
 #   dynamodb:

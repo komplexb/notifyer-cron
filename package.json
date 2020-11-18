@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "sls offline start --port 4500",
     "-prelocal": "sls dynamodb start --migrate",
-    "local": "sls invoke local -f app",
+    "app": "sls invoke local -f app",
+    "refresh": "sls invoke local -f refresh",
     "deploy": "sls deploy --stage prod",
     "remove": "sls remove --stage prod",
     "logs": "sls logs -f app --tail",
