@@ -9,6 +9,7 @@ Maybe, but this one retrieves the quotes from my personal repository of notes st
 
 # How does it work?
 ⌚ cron event triggers a ƛ function which selects a random 🎲 note to be delivered by push notification📬.
+![Notifyer Documentation](https://user-images.githubusercontent.com/3874813/99654228-20ecd480-2aae-11eb-9c53-1bb0c50dcdfa.png)
 
 # What's your stack?
 The service depends on the [Pushbullet API][2] and [MS Graph API][1] node library which streamlines the development process. It was scaffolded with the Serverless NodeJS template and uses the following AWS services:
