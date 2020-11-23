@@ -2,8 +2,22 @@
 #    schedule: https://www.serverless.com/framework/docs/providers/aws/events/schedule/
 #    schedule: https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
 dev:
-  - schedule: rate(1 minute)
+  - schedule:
+      rate: rate(1 minute)
+      input:
+        section: 'Verses'
+
 
 prod:
-  - schedule: cron(0 19 ? * SUN-THU *) # 6AM MON-FRI Sydney
-  - schedule: cron(0 2 ? * SUN-THU *) # 1PM MON-FRI Sydney
+  - schedule:
+      rate: cron(0 19 ? * SUN-THU *)
+      name: 'notifyer-votd'
+      description: 'Verse of the Day - 6AM MON-FRI Sydney'
+      input:
+        section: 'Verses'
+  - schedule: 
+      rate: cron(0 2 ? * SUN-THU *)
+      name: 'notifyer-qotd'
+      description: 'Quote of the Day - 1PM MON-FRI Sydney'
+      input:
+        section: 'Quote'

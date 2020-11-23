@@ -9,7 +9,7 @@ const db = require('./db/persist')
  * Lambda functions have ephemeral storage on the server in /tmp.
  * Seed the MSAL Key Cache and localStorage with the latest from the database
  */
-async function initCache () {
+async function initCache (sectionName) {
   // populate cache with db contents
   const data = await db.getItem('cache')
   await fs
@@ -21,32 +21,33 @@ async function initCache () {
   const onenote = await db.getItem('onenote', true)
   localStorage.setItem('onenote', onenote)
   localStorage.setItem(
-    'onenote_section_count',
-    await db.getItem('onenote_section_count')
+    `${sectionName.toLowerCase()}_section_count`,
+    await db.getItem(`${sectionName.toLowerCase()}_section_count`)
   )
   console.log('Restore localStorage')
 }
 
 const app = async (event, context) => {
-  await initCache() // setup the files needed for the app to work
+  const sectionName = event.section || process.env.NOTIFYER_SECTION
+
+  await initCache(sectionName) // setup the files needed for the app to work
   await refreshToken() // refresh the tokens needed for MS Graph Calls
 
   if (!hasValidToken()) {
     await deviceLogin()
   }
 
-  const resp = await getRandomNote()
+  const resp = await getRandomNote(sectionName)
     .then(note => {
       if (typeof note === 'undefined') {
         throw new Error()
-      } else {
-        return notify(note)
       }
+      return notify(note)
     })
     .catch(err => {
       console.log(
         'Ooops!',
-        `Can't seem to find any notes here. Please check if you created a section called '${process.env.NOTIFYER_SECTION}', add some notes.`
+        `Can't seem to find any notes here. Please check if you created a section called '${sectionName}', add some notes.`
       )
       console.error('App: Check Logs', err)
       return {

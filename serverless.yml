@@ -50,12 +50,6 @@ plugins:
 
 # https://www.serverless.com/framework/docs/providers/aws/guide/functions/
 functions:
-  # refresh:
-  #   handler: handler.refresh
-  #   timeout: 10
-  #   events:
-  #     - schedule: rate(59 minutes)
-
   app:
     handler: handler.app
     events: ${file(events.yml):${self:provider.stage}}

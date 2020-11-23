@@ -4,11 +4,12 @@
   "description": "Notifyer as a Serverless Service/Daemon",
   "main": "handler.js",
   "scripts": {
-    "dev": "sls invoke local -f app --watch",
     "app": "sls invoke local -f app",
-    "-prelocal": "sls dynamodb start --migrate",
-    "refresh": "sls invoke local -f refresh",
+    "dev": "sls invoke local -f app --watch --data",
     "deploy": "sls deploy --stage prod",
+    "event": "sls invoke local -f app --watch --path ./eventData.json",
+    "offline": "sls offline start --port 4500",
+    "refresh": "sls invoke local -f refresh",
     "remove": "sls remove --stage prod",
     "logs": "sls logs -f app --tail",
     "test": "jest"
