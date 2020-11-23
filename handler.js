@@ -1,28 +1,35 @@
 const { deviceLogin, hasValidToken, refreshToken } = require('./lib/auth')
 const { getRandomNote } = require('./lib/onenote')
 const { notify } = require('./lib/pushbullet')
-const storage = require('./lib/store')
+const localStorage = require('./lib/store')
 const { promises: fs } = require('fs')
 const db = require('./db/persist')
 
+/**
+ * Lambda functions have ephemeral storage on the server in /tmp.
+ * Seed the MSAL Key Cache and localStorage with the latest from the database
+ */
 async function initCache () {
-  const prefix = process.env.STAGE === 'prod' ? '/' : './'
-  const cachePath = `${prefix}${process.env.CACHE_PATH}`
-
   // populate cache with db contents
   const data = await db.getItem('cache')
-  await fs.writeFile(cachePath, data).then(console.log('init cache'))
+  await fs
+    .writeFile(process.env.CACHE_PATH, data)
+    .then(console.log('Restore Cache'))
 
   // populate local storage with login contents
-  // coherced to json
+  // coerced to json
   const onenote = await db.getItem('onenote', true)
-  storage.setItem('onenote', onenote)
-  console.log('init local storage')
+  localStorage.setItem('onenote', onenote)
+  localStorage.setItem(
+    'onenote_section_count',
+    await db.getItem('onenote_section_count')
+  )
+  console.log('Restore localStorage')
 }
 
 const app = async (event, context) => {
-  await initCache()
-  await refreshToken()
+  await initCache() // setup the files needed for the app to work
+  await refreshToken() // refresh the tokens needed for MS Graph Calls
 
   if (!hasValidToken()) {
     await deviceLogin()

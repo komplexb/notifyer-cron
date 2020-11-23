@@ -19,7 +19,6 @@ module.exports = {
     'no-mixed-spaces-and-tabs': 1,
     indent: 1,
     'brace-style': 1,
-    'no-trailing-spaces': 1,
-    'prettier/prettier': 'error'
+    'no-trailing-spaces': 1
   }
 }

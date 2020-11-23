@@ -1,11 +1,9 @@
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
-#    schedlule: https://www.serverless.com/framework/docs/providers/aws/events/schedule/
-#    schedlule: https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
+#    schedule: https://www.serverless.com/framework/docs/providers/aws/events/schedule/
+#    schedule: https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
 dev:
   - schedule: rate(1 minute)
 
 prod:
-  - schedule: cron(0 19 ? * MON-FRI *) # 6AM
-  - schedule: cron(0 2 ? * MON-FRI *) # 1PM
+  - schedule: cron(0 19 ? * SUN-THU *) # 6AM MON-FRI Sydney
+  - schedule: cron(0 2 ? * SUN-THU *) # 1PM MON-FRI Sydney
