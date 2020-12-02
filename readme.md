@@ -17,11 +17,16 @@ The service depends on the [Pushbullet API][2] and [MS Graph API][1] node librar
 - DynamoDB
 - Parameter Store
 
+# ToDo
+[Project Board on Github][4]
+
 # Demo
 ![Notifyer Documentation](https://user-images.githubusercontent.com/3874813/99654228-20ecd480-2aae-11eb-9c53-1bb0c50dcdfa.png)
 
-Try [Notifyer for MacOS][3].
+# Try the Mac App
+Download [Notifyer for MacOS][3].
 
 [1]: https://www.npmjs.com/package/@azure/msal-node
 [2]: https://docs.pushbullet.com/#pushbullet-api
 [3]: https://github.com/komplexb/notifyer-electron
+[4]: https://github.com/komplexb/notifyer-cron/projects/1#column-11918290
