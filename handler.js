@@ -20,10 +20,14 @@ async function initCache (sectionName) {
   // coerced to json
   const onenote = await db.getItem('onenote', true)
   localStorage.setItem('onenote', onenote)
-  localStorage.setItem(
-    `${sectionName.toLowerCase()}_section_count`,
-    await db.getItem(`${sectionName.toLowerCase()}_section_count`)
-  )
+
+  const count = await db.getItem(`${sectionName.toLowerCase()}_section_count`)
+  localStorage.setItem(`${sectionName.toLowerCase()}_section_count`, count)
+
+  const recent =
+    (await db.getItem(`recent_${sectionName.toLowerCase()}`, true)) || []
+  localStorage.setItem(`recent_${sectionName.toLowerCase()}`, recent)
+
   console.log('Restore localStorage')
 }
 
@@ -42,7 +46,7 @@ const app = async (event, context) => {
       if (typeof note === 'undefined') {
         throw new Error()
       }
-      return notify(note)
+      return notify(note, sectionName === 'Verses' ? '📖' : '💡')
     })
     .catch(err => {
       console.log(

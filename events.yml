@@ -16,8 +16,8 @@ prod:
       input:
         section: 'Verses'
   - schedule: 
-      rate: cron(0 2 ? * SUN-THU *)
+      rate: cron(0 2 ? * MON-FRI *)
       name: 'notifyer-qotd'
       description: 'Quote of the Day - 1PM MON-FRI Sydney'
       input:
-        section: 'Quote'
+        section: 'Quotes'
