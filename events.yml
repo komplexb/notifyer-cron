@@ -10,14 +10,14 @@ dev:
 
 prod:
   - schedule:
-      rate: cron(0 19 ? * */2 *)
+      rate: cron(0 20 ? * */2 *)
       name: 'notifyer-votd'
       description: 'Verse of the Day - 6AM Every Other Day | Sydney'
       input:
         section: 'Verses'
-  - schedule: 
-      rate: cron(0 2 ? * MON-FRI *)
+  - schedule:
+      rate: cron(0 11 ? * MON-FRI *)
       name: 'notifyer-qotd'
-      description: 'Quote of the Day - 1PM MON-FRI | Sydney'
+      description: 'Quote of the Day - 9PM MON-FRI | Sydney'
       input:
         section: 'Quotes'
