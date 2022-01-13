@@ -1,6 +1,6 @@
 const { deviceLogin, hasValidToken, refreshToken } = require('./lib/auth')
 const { getRandomNote } = require('./lib/onenote')
-const { notify } = require('./lib/pushbullet')
+const notify = require('./lib/notify')
 const localStorage = require('./lib/store')
 const { promises: fs } = require('fs')
 const db = require('./db/persist')
@@ -9,7 +9,7 @@ const db = require('./db/persist')
  * Lambda functions have ephemeral storage on the server in /tmp.
  * Seed the MSAL Key Cache and localStorage with the latest from the database
  */
-async function initCache (sectionName) {
+async function initCache(sectionName) {
   // populate cache with db contents
   const data = await db.getItem('cache')
   await fs
@@ -46,7 +46,7 @@ const app = async (event, context) => {
       if (typeof note === 'undefined') {
         throw new Error()
       }
-      return notify(note, sectionName === 'Verses' ? '📖' : '💡')
+      return notify.withTelegram(note, sectionName === 'Verses' ? '📖' : '💡')
     })
     .catch(err => {
       console.log(
