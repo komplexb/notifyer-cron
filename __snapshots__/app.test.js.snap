@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handler ran successfully integration 1`] = `
+Array [
+  "Note Pushed!",
+]
+`;

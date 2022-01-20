@@ -31,7 +31,7 @@ async function initCache(sectionName) {
   console.log('Restore localStorage')
 }
 
-const app = async (event, context) => {
+const handler = async (event, context) => {
   const sectionName = event.section || process.env.NOTIFYER_SECTION
 
   await initCache(sectionName) // setup the files needed for the app to work
@@ -67,5 +67,5 @@ const app = async (event, context) => {
 }
 
 module.exports = {
-  app
+  handler
 }

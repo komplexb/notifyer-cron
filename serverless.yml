@@ -47,16 +47,21 @@ plugins:
   - serverless-webpack
   # - serverless-dynamodb-local
   - serverless-offline
+  - serverless-jest-plugin
 
 # https://www.serverless.com/framework/docs/providers/aws/guide/functions/
 functions:
   app:
-    handler: handler.app
+    handler: app.handler
     events: ${file(events.yml):${self:provider.stage}}
 
 custom:
   webpack:
+    keepOutputDirectory: true
     includeModules: false
+    excludeFiles:
+      - '**/*.test.js'
+      - '**/*.config.js'
 
 #   dynamodb:
 #   # If you only want to use DynamoDB Local in some stages, declare them here
