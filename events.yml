@@ -11,13 +11,19 @@ dev:
 prod:
   - schedule:
       rate: cron(0 19 ? * */2 *)
-      name: 'notifyer-votd'
+      name: 'notifyer-verses'
       description: 'Verse of the Day - 6AM Every Other Day | Sydney | AEDT'
       input:
         section: 'Verses'
   - schedule:
       rate: cron(0 8 ? * MON-FRI *)
-      name: 'notifyer-qotd'
-      description: 'Quote of the Day - 9PM MON-FRI | Sydney | AEDT'
+      name: 'notifyer-weekdays'
+      description: 'Weekday Mantras | Sydney | AEDT'
+      input:
+        section: 'Mantras'
+  - schedule:
+      rate: cron(0 4 ? * SAT-SUN *)
+      name: 'notifyer-weekends'
+      description: 'Weekend Quotes | Sydney | AEDT'
       input:
         section: 'Quotes'
