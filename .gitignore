@@ -8,3 +8,4 @@ jspm_packages
 .webpack
 scratch
 tmp
+coverage
