@@ -57,7 +57,7 @@ const app = async (event, context) => {
     .catch(err => {
       console.log(
         'Ooops!',
-        `Can't seem to find any notes here. Please check if you created a section called '${sectionName}', add some notes.`
+        `Can't seem to find any notes here. Please check if you created a section called '${onenoteSettings.sectionName}', add some notes.`
       )
       console.error('App: Check Logs', err)
       return {
