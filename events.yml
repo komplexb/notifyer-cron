@@ -5,8 +5,13 @@ dev:
   - schedule:
       rate: rate(1 minute)
       input:
-        section: 'Verses'
-
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Sexy Time'
+        messageSettings:
+          channelHandle: '@notifyer_quotes_dev'
+          disablePreview: false
+          titlePrefix: '🍑 Position of the Week 🍆'
 
 prod:
   - schedule:
@@ -20,10 +25,40 @@ prod:
       name: 'notifyer-weekdays'
       description: 'Weekday Mantras | Sydney | AEDT'
       input:
-        section: 'Mantras'
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Mantras'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: true
+          titlePrefix: 'Remember: Discipline equals Freedom'
   - schedule:
       rate: cron(0 4 ? * SAT-SUN *)
       name: 'notifyer-weekends'
       description: 'Weekend Quotes | Sydney | AEDT'
       input:
         section: 'Quotes'
+  - schedule:
+      rate: cron(0 4 ? * SAT-SUN *)
+      name: 'sexy-time'
+      description: 'Sunday Nights | Sydney | AEDT'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Couple Skills'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: false
+          titlePrefix: '👩‍❤️‍💋‍👨 Couple Skills 🥰'
+  - schedule:
+      rate: cron(0 4 ? * SAT-SUN *)
+      name: 'couple-skills'
+      description: 'Wednesday Nights | Sydney | AEDT'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Sexy Time'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: false
+          titlePrefix: '🍑 Position of the Week 🍆'

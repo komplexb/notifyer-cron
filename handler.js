@@ -4,6 +4,7 @@ const notify = require('./lib/notify')
 const localStorage = require('./lib/store')
 const { promises: fs } = require('fs')
 const db = require('./db/persist')
+const { snakeCase } = require("snake-case");
 
 /**
  * Lambda functions have ephemeral storage on the server in /tmp.
@@ -32,8 +33,9 @@ async function initCache(sectionHandle) {
 
 const app = async (event, context) => {
   let { onenoteSettings, messageSettings } = event
+
   onenoteSettings = {
-    sectionHandle: onenoteSettings.sectionName.toLowerCase(),
+    sectionHandle: snakeCase(onenoteSettings.sectionName),
     ...onenoteSettings
   }
 
@@ -51,7 +53,7 @@ const app = async (event, context) => {
       }
       return notify.withTelegram(
         note,
-        onenoteSettings.sectionName === 'Verses' ? '📖' : '💡'
+        messageSettings
       )
     })
     .catch(err => {

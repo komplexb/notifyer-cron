@@ -1,11 +1,11 @@
 {
   "onenoteSettings": {
     "notebookName": "2nd Brain",
-    "sectionName": "Verses"
+    "sectionName": "Mantras"
   },
   "messageSettings": {
     "channelHandle": "@notifyer_quotes_dev",
-    "showPreview": true,
-    "titlePrefix": ""
+    "disablePreview": true,
+    "titlePrefix": "Mantras"
   }
 }
