@@ -19,29 +19,41 @@ prod:
       name: 'notifyer-verses'
       description: 'Verse of the Day - 6AM Every Other Day | Sydney | AEDT'
       input:
-        section: 'Verses'
-  - schedule:
-      rate: cron(0 8 ? * MON-FRI *)
-      name: 'notifyer-weekdays'
-      description: 'Weekday Mantras | Sydney | AEDT'
-      input:
         onenoteSettings:
           notebookName: '2nd Brain'
-          sectionName: 'Mantras'
+          sectionName: 'Verses'
         messageSettings:
           channelHandle: '@notifyer_quotes'
           disablePreview: true
-          titlePrefix: 'Remember: Discipline equals Freedom'
+          titlePrefix: '✝️'
   - schedule:
       rate: cron(0 4 ? * SAT-SUN *)
       name: 'notifyer-weekends'
       description: 'Weekend Quotes | Sydney | AEDT'
       input:
-        section: 'Quotes'
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Quotes'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: true
+          titlePrefix: '💡'
   - schedule:
-      rate: cron(0 4 ? * SAT-SUN *)
-      name: 'sexy-time'
-      description: 'Sunday Nights | Sydney | AEDT'
+      rate: cron(0 8 ? * MON-FRI *)
+      name: 'notifyer-weekdays'
+      description: 'Weeknight Mantras | Sydney | AEDT'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Mantras'
+        messageSettings:
+          channelHandle: '@bb_2nd_brain'
+          disablePreview: true
+          titlePrefix: '💪🏾Remember: Discipline equals 🆓dom'
+  - schedule:
+      rate: cron(15 9 ? * WED *)
+      name: 'notifyer-couple-skills'
+      description: 'Wednesday Nights | Sydney | AEDT'
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
@@ -51,9 +63,9 @@ prod:
           disablePreview: false
           titlePrefix: '👩‍❤️‍💋‍👨 Couple Skills 🥰'
   - schedule:
-      rate: cron(0 4 ? * SAT-SUN *)
-      name: 'couple-skills'
-      description: 'Wednesday Nights | Sydney | AEDT'
+      rate: cron(15 7 ? * SUN *)
+      name: 'notifyer-sexy-time'
+      description: 'Sunday Nights | Sydney | AEDT'
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
