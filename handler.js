@@ -19,6 +19,7 @@ async function initCache(sectionHandle) {
 
   // populate local storage with login contents
   // coerced to json
+  localStorage.initStore();
   const onenote = await db.getItem('onenote', true)
   localStorage.setItem('onenote', onenote)
 
@@ -28,7 +29,7 @@ async function initCache(sectionHandle) {
   const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || []
   localStorage.setItem(`recent_${sectionHandle}`, recent)
 
-  console.log('Restore localStorage')
+  console.log('Restore localStorage', `${sectionHandle}: ${count}`, `recent: ${recent.length}`)
 }
 
 const app = async (event, context) => {

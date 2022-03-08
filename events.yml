@@ -15,7 +15,7 @@ dev:
 
 prod:
   - schedule:
-      rate: cron(0 19 ? * */2 *)
+      rate: cron(0 19 ? * SUN-THUR *)
       name: 'notifyer-verses'
       description: 'Verse of the Day - 6AM Every Other Day | Sydney | AEDT'
       input:
@@ -23,7 +23,7 @@ prod:
           notebookName: '2nd Brain'
           sectionName: 'Verses'
         messageSettings:
-          channelHandle: '@notifyer_quotes'
+          channelHandle: '@bb_2nd_brain'
           disablePreview: true
           titlePrefix: '✝️'
   - schedule:
@@ -48,8 +48,8 @@ prod:
           sectionName: 'Mantras'
         messageSettings:
           channelHandle: '@bb_2nd_brain'
-          disablePreview: true
-          titlePrefix: '💪🏾Remember: Discipline equals 🆓dom'
+          disablePreview: false
+          titlePrefix: '💪🏾Discipline equals 🆓dom'
   - schedule:
       rate: cron(15 9 ? * WED *)
       name: 'notifyer-couple-skills'

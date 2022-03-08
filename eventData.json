@@ -1,11 +1,11 @@
 {
   "onenoteSettings": {
     "notebookName": "2nd Brain",
-    "sectionName": "Couple Skills"
+    "sectionName": "Quotes"
   },
   "messageSettings": {
     "channelHandle": "@notifyer_quotes_dev",
     "disablePreview": false,
-    "titlePrefix": "Couple Skills"
+    "titlePrefix": "Quotes"
   }
 }
