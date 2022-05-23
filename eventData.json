@@ -1,11 +1,12 @@
 {
   "onenoteSettings": {
     "notebookName": "2nd Brain",
-    "sectionName": "Quotes"
+    "sectionName": "Test"
   },
   "messageSettings": {
     "channelHandle": "@notifyer_quotes_dev",
-    "disablePreview": false,
-    "titlePrefix": "Quotes"
+    "disablePreview": true,
+    "titlePrefix": "Test",
+    "showEditLink": true
   }
 }
