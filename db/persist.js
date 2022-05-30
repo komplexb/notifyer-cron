@@ -21,7 +21,7 @@ const documentClient = new AWS.DynamoDB.DocumentClient({
  *
  * @returns {String|JSON} Retrieved data or an err string
  */
-async function getItem (itemName, parse = false) {
+async function getItem(itemName, parse = false) {
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
     Key: {
@@ -32,10 +32,11 @@ async function getItem (itemName, parse = false) {
 
   try {
     const data = await documentClient.get(params).promise()
-    console.log(`Attribute '${itemName}' Read`)
+    console.log(`Getting '${itemName}'`)
     return parse ? JSON.parse(data.Item[itemName]) : data.Item[itemName]
   } catch (err) {
-    console.log(err)
+    console.error(`Error getting db item: '${itemName}'`)
+    console.error(err)
     return err
   }
 }
@@ -47,7 +48,7 @@ async function getItem (itemName, parse = false) {
  * @param {*} itemName attribute to update
  * @param {*} data to update
  */
-async function setItem (itemName, data) {
+async function setItem(itemName, data) {
   const params = {
     TableName: process.env.DYNAMODB_TABLE,
     Key: {
@@ -63,7 +64,8 @@ async function setItem (itemName, data) {
     const data = await documentClient.update(params).promise()
     console.log(`Attribute '${itemName}' Updated`)
   } catch (err) {
-    console.log(err)
+    console.error(`Error setting db item: '${itemName}'`)
+    console.error(err)
     return err
   }
 }
