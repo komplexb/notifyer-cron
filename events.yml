@@ -34,7 +34,7 @@ prod:
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
-          sectionName: 'Depression'
+          sectionName: 'The Psalms'
         messageSettings:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
