@@ -5,9 +5,8 @@
   "main": "handler.js",
   "scripts": {
     "app": "sls invoke local -f app",
-    "dev": "sls invoke local -f app --watch --data",
     "deploy": "sls deploy --stage prod",
-    "event": "sls invoke local -f app --watch --path ./eventData.json",
+    "dev": "sls invoke local -f app --watch --path ./eventData.json",
     "offline": "sls offline start --port 4500",
     "refresh": "sls invoke local -f refresh",
     "remove": "sls remove --stage prod",
@@ -41,10 +40,12 @@
   "dependencies": {
     "@azure/msal-node": "^1.0.0-alpha.14",
     "chance": "^1.1.7",
-    "node-html-markdown": "^1.1.2",
-    "node-html-parser": "^4.1.5",
+    "node-html-parser": "^5.3.3",
     "node-localstorage": "^2.1.6",
+    "snake-case": "^3.0.4",
     "superagent": "^6.1.0",
-    "telegram-format": "^2.0.2"
+    "telegram-format": "^2.0.2",
+    "telegramify-markdown": "^1.0.3",
+    "turndown": "^7.1.1"
   }
 }
