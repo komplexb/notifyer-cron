@@ -12,8 +12,57 @@ dev:
           channelHandle: '@notifyer_quotes_dev'
           disablePreview: false
           titlePrefix: '🍑 Position of the Week 🍆'
+  - schedule:
+      rate: cron(0 2 ? * MON-FRI *)
+      name: 'weekday-wellness'
+      description: 'Week Day Wellness | Sydney | AEDT'
+      input:
+        onenoteSettings:
+          notebookName: 'P n B'
+          sectionName: 'Tek Care'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: false
+          titlePrefix: '🧘🏾‍♀️ #YourWellness 💡'
+
 
 prod:
+  - schedule:
+      rate: cron(0 7 ? * SAT-SUN *)
+      name: 'notifyer-couple-skills'
+      description: 'Weekend Afternoons | Sydney | AEDT'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Couple Skills'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: false
+          titlePrefix: '👩‍❤️‍💋‍👨 #CoupleSkills 🥰'
+  - schedule:
+      rate: cron(15 9 ? * SUN,WED *)
+      name: 'notifyer-sexy-time'
+      description: 'Sunday, Wednesday Nights | Sydney | AEDT'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Sexy Time'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: false
+          titlePrefix: '🍑 #SexyTime 🍆'
+  - schedule:
+      rate: cron(0 21 ? * FRI-SAT *)
+      name: 'weekend-psalms'
+      description: 'Weekend Psalms | Sydney | AEDT'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'The Psalms'
+        messageSettings:
+          channelHandle: '@notifyer_quotes'
+          disablePreview: true
+          titlePrefix: '✝️'
   - schedule:
       rate: cron(0 19 ? * SUN-THUR *)
       name: 'notifyer-votd'
@@ -30,7 +79,7 @@ prod:
   - schedule:
       rate: cron(0 19 ? * SUN-THUR *)
       name: 'notifyer-depression'
-      description: 'Verse of the Day - 6AM Every Other Day | Sydney | AEDT'
+      description: 'Depression - 6AM Every Other Day | Sydney | AEDT'
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
@@ -40,42 +89,6 @@ prod:
           disablePreview: true
           titlePrefix: '✝️'
           showEditLink: true
-  - schedule:
-      rate: cron(0 21 ? * FRI-SAT *)
-      name: 'weekend-psalms'
-      description: 'Weekend Psalms | Sydney | AEDT'
-      input:
-        onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'The Psalms'
-        messageSettings:
-          channelHandle: '@notifyer_quotes'
-          disablePreview: true
-          titlePrefix: '✝️'
-  - schedule:
-      rate: cron(0 4 ? * SAT-SUN *)
-      name: 'notifyer-weekends'
-      description: 'Weekend Quotes | Sydney | AEDT'
-      input:
-        onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'Quotes'
-        messageSettings:
-          channelHandle: '@notifyer_quotes'
-          disablePreview: true
-          titlePrefix: '💡'
-  - schedule:
-      rate: cron(0 2 ? * MON-FRI *)
-      name: 'weekday-wellness'
-      description: 'Week Day Wellness | Sydney | AEDT'
-      input:
-        onenoteSettings:
-          notebookName: 'P n B'
-          sectionName: 'Tek Care'
-        messageSettings:
-          channelHandle: '@notifyer_quotes'
-          disablePreview: false
-          titlePrefix: '🧘🏾‍♀️ #YourWellness 💡'
   - schedule:
       rate: cron(0 9 ? * SUN-THUR *)
       name: 'notifyer-mantras'
@@ -87,7 +100,7 @@ prod:
         messageSettings:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
-          titlePrefix: '💪🏾Discipline equals 🆓dom'
+          titlePrefix: '#mantras'
           showEditLink: true
   - schedule:
       rate: cron(0 9 ? * SUN-THUR *)
@@ -96,36 +109,12 @@ prod:
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
-          sectionName: 'Mantras'
+          sectionName: 'Quotes'
         messageSettings:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
-          titlePrefix: '💡'
+          titlePrefix: '#qotd'
           showEditLink: true
-  - schedule:
-      rate: cron(15 9 ? * WED *)
-      name: 'notifyer-couple-skills'
-      description: 'Wednesday Nights | Sydney | AEDT'
-      input:
-        onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'Couple Skills'
-        messageSettings:
-          channelHandle: '@notifyer_quotes'
-          disablePreview: false
-          titlePrefix: '👩‍❤️‍💋‍👨 Couple Skills 🥰'
-  - schedule:
-      rate: cron(15 7 ? * SUN *)
-      name: 'notifyer-sexy-time'
-      description: 'Sunday Nights | Sydney | AEDT'
-      input:
-        onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'Sexy Time'
-        messageSettings:
-          channelHandle: '@notifyer_quotes'
-          disablePreview: false
-          titlePrefix: '🍑 Position of the Week 🍆'
   - schedule:
       rate: cron(15 7 ? * SUN *)
       name: 'notifyer-love-tips'
