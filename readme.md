@@ -32,6 +32,13 @@ The service depends on the [Pushbullet API][2] and [MS Graph API][1] node librar
 
 ![Notifyer Documentation](https://user-images.githubusercontent.com/3874813/99654228-20ecd480-2aae-11eb-9c53-1bb0c50dcdfa.png)
 
+
+# Setup Git
+
+- [Configure auth so you can push](https://docs.github.com/en/get-started/getting-started-with-git/caching-your-github-credentials-in-git#github-cli)
+- [Configure private email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address)
+
+
 # Getting Started
 
 - `npm i serverless@2 -g`
