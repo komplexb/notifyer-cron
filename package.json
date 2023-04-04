@@ -32,14 +32,14 @@
     "prettier": "2.1.2",
     "prettier-config-standard": "^1.0.1",
     "serverless-dynamodb-local": "^0.2.39",
-    "serverless-offline": "^7.1.0",
+    "serverless-offline": "^12.0.4",
     "serverless-webpack": "^5.11.0",
     "standard": "^16.0.3",
     "supertest": "^5.0.0",
     "webpack": "^5.5.0"
   },
   "dependencies": {
-    "@azure/msal-node": "^1.0.0-alpha.14",
+    "@azure/msal-node": "^1.17.0",
     "chance": "^1.1.7",
     "node-html-parser": "^5.3.3",
     "node-localstorage": "^2.1.6",
