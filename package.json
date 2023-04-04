@@ -36,7 +36,7 @@
     "serverless-webpack": "^5.11.0",
     "standard": "^16.0.3",
     "supertest": "^5.0.0",
-    "webpack": "^5.5.0"
+    "webpack": "^5.76.0"
   },
   "dependencies": {
     "@azure/msal-node": "^1.0.0-alpha.14",
