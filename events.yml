@@ -40,20 +40,8 @@ prod:
           disablePreview: false
           titlePrefix: 'Next weekend, #CatchUpWith...'
   - schedule:
-      rate: cron(0 7 1,15 * ? *)
-      name: 'notifyer-couple-skills'
-      description: 'Couple Skills'
-      input:
-        onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'Couple Skills'
-        messageSettings:
-          channelHandle: '@notifyer_quotes'
-          disablePreview: false
-          titlePrefix: '♥ #CoupleSkills'
-  - schedule:
-      rate: cron(0 7 2,16 * ? *)
-      name: 'notifyer-sexy-time'
+      rate: cron(0 10 2,16 * ? *)
+      name: 'sexy-time'
       description: 'Intimacy Tips'
       input:
         onenoteSettings:
@@ -64,7 +52,7 @@ prod:
           disablePreview: false
           titlePrefix: '🍑 #SexyTime 🍆'
   - schedule:
-      rate: cron(0 19 ? * SUN-THUR *)
+      rate: cron(0 20 ? * SUN-THUR *)
       name: 'notifyer-weekend-psalms'
       description: 'Psalms | Sydney | AEDT'
       input:
@@ -89,7 +77,7 @@ prod:
           titlePrefix: '#votd'
           showEditLink: true
   - schedule:
-      rate: cron(0 19 ? * FRI-SAT *)
+      rate: cron(0 20 ? * FRI-SAT *)
       name: 'notifyer-depression'
       description: 'Depression | Sydney | AEDT'
       input:
@@ -102,7 +90,7 @@ prod:
           titlePrefix: '#depression'
           showEditLink: true
   - schedule:
-      rate: cron(0 9 ? * SUN-THUR *)
+      rate: cron(0 10 ? * SUN-THUR *)
       name: 'notifyer-mantras'
       description: 'Mantras | Sydney | AEDT'
       input:
@@ -115,7 +103,7 @@ prod:
           titlePrefix: '#mantras'
           showEditLink: true
   - schedule:
-      rate: cron(0 9 ? * SUN-THUR *)
+      rate: cron(0 10 ? * SUN-THUR *)
       name: 'notifyer-quotes'
       description: 'Quotes | Sydney | AEDT'
       input:
@@ -128,7 +116,7 @@ prod:
           titlePrefix: '#qotd'
           showEditLink: true
   - schedule:
-      rate: cron(15 7 ? * SUN *)
+      rate: cron(15 8 ? * SUN *)
       name: 'notifyer-love-tips'
       description: 'Sunday Nights | Sydney | AEDT'
       input:

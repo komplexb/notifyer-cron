@@ -1,0 +1,12 @@
+- schedule:
+    rate: cron(0 7 1,15 * ? *)
+    name: 'notifyer-couple-skills'
+    description: 'Couple Skills'
+    input:
+      onenoteSettings:
+        notebookName: '2nd Brain'
+        sectionName: 'Couple Skills'
+      messageSettings:
+        channelHandle: '@notifyer_quotes'
+        disablePreview: false
+        titlePrefix: '♥ #CoupleSkills'

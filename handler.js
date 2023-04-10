@@ -40,14 +40,16 @@ const app = async (event, context) => {
     ...onenoteSettings
   }
 
-  await initCache(onenoteSettings.sectionHandle) // setup the files needed for the app to work
-  await refreshToken() // refresh the tokens needed for MS Graph Calls
-
-  if (!hasValidToken()) {
-    await deviceLogin()
-  }
-
-  const resp = await getRandomNote(onenoteSettings)
+  const resp = await initCache(onenoteSettings.sectionHandle) // setup the files needed for the app to work
+    .then(() => refreshToken()) // refresh the tokens needed for MS Graph Calls
+    .then(() => {
+      if (!hasValidToken()) {
+        return deviceLogin()
+      }
+    })
+    .then(() => {
+      return getRandomNote(onenoteSettings)
+    })
     .then(note => {
       if (typeof note === 'undefined') {
         throw new Error()
