@@ -78,3 +78,8 @@ const app = async (event, context) => {
 module.exports = {
   app
 }
+
+if (require.main === module) {
+  console.log("debugging");
+  exports.app();
+}
