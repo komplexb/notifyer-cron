@@ -52,7 +52,7 @@ prod:
           disablePreview: false
           titlePrefix: '🍑 #SexyTime 🍆'
   - schedule:
-      rate: cron(0 20 ? * SUN-THUR *)
+      rate: cron(0 20 ? * FRI-SAT *)
       name: 'notifyer-weekend-psalms'
       description: 'Psalms | Sydney | AEDT'
       input:
@@ -64,9 +64,9 @@ prod:
           disablePreview: true
           titlePrefix: '#psalms'
   - schedule:
-      rate: cron(0 21 ? * FRI-SAT *)
+      rate: cron(0 19 ? * SUN-THUR *)
       name: 'notifyer-votd'
-      description: 'Verse of the Day| Sydney | AEDT'
+      description: 'Verse of the Day | Sydney | AEDT'
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
