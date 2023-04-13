@@ -66,14 +66,16 @@ const app = async (event, context) => {
       )
       console.error('App: Check Logs', err)
       return {
-        err
+        status: 400,
+        title: 'Error',
+        body: err
       }
     })
 
   return {
     status: resp.status,
-    title: resp.body.title,
-    body: resp.body.body
+    title: resp.title,
+    body: resp.body
   }
 }
 
