@@ -40,6 +40,7 @@ const app = async (event, context) => {
 
   onenoteSettings = {
     sectionHandle: snakeCase(onenoteSettings.sectionName),
+    isSequential: false,
     ...onenoteSettings
   }
 
