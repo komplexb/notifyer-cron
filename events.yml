@@ -78,16 +78,17 @@ prod:
           showEditLink: true
   - schedule:
       rate: cron(0 20 ? * FRI-SAT *)
-      name: 'notifyer-depression'
-      description: 'Depression | Sydney | AEDT'
+      name: 'notifyer-mental-health'
+      description: 'Mental Health'
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
-          sectionName: 'Depression'
+          sectionName: 'Mental Health'
+          isSequential: true
         messageSettings:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
-          titlePrefix: '#depression'
+          titlePrefix: '#mental-health'
           showEditLink: true
   - schedule:
       rate: cron(0 10 ? * SUN-THUR *)
@@ -97,6 +98,7 @@ prod:
         onenoteSettings:
           notebookName: '2nd Brain'
           sectionName: 'Mantras'
+          isSequential: true
         messageSettings:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true

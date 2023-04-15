@@ -1,5 +1,5 @@
 const { deviceLogin, hasValidToken, refreshToken } = require('./lib/auth')
-const { getRandomNote } = require('./lib/onenote')
+const { getNote } = require('./lib/onenote')
 const notify = require('./lib/notify')
 const localStorage = require('./lib/store')
 const { promises: fs } = require('fs')
@@ -26,10 +26,13 @@ async function initCache(sectionHandle) {
   const count = await db.getItem(`${sectionHandle}_section_count`)
   localStorage.setItem(`${sectionHandle}_section_count`, count)
 
+  const lastPage = await db.getItem(`${sectionHandle}_last_page`)
+  localStorage.setItem(`${sectionHandle}_last_page`, lastPage)
+
   const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || []
   localStorage.setItem(`recent_${sectionHandle}`, recent)
 
-  console.log('Restore localStorage', `${sectionHandle}: ${count}`, `recent: ${recent.length}`)
+  console.log('Restore localStorage')
 }
 
 const app = async (event, context) => {
@@ -37,6 +40,7 @@ const app = async (event, context) => {
 
   onenoteSettings = {
     sectionHandle: snakeCase(onenoteSettings.sectionName),
+    isSequential: false,
     ...onenoteSettings
   }
 
@@ -48,7 +52,7 @@ const app = async (event, context) => {
       }
     })
     .then(() => {
-      return getRandomNote(onenoteSettings)
+      return getNote(onenoteSettings)
     })
     .then(note => {
       if (typeof note === 'undefined') {
