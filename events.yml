@@ -25,6 +25,21 @@ dev:
           disablePreview: false
           titlePrefix: '🧘🏾‍♀️ #YourWellness 💡'
 
+archive:
+  - schedule:
+    rate: cron(0 10 2,16 * ? *)
+    name: 'sexy-time'
+    description: 'Intimacy Tips'
+    input:
+      onenoteSettings:
+        notebookName: '2nd Brain'
+        sectionName: 'Sexy Time'
+      messageSettings:
+        channelHandle: '@notifyer_quotes'
+        disablePreview: false
+        titlePrefix: '🍑 #SexyTime 🍆'
+
+
 
 prod:
   - schedule:
@@ -40,17 +55,18 @@ prod:
           disablePreview: false
           titlePrefix: 'Next weekend, #CatchUpWith...'
   - schedule:
-      rate: cron(0 10 2,16 * ? *)
-      name: 'sexy-time'
-      description: 'Intimacy Tips'
+      rate: cron(0 7 8,22 * ? *)
+      name: 'couple-skills-books'
+      description: 'Couple Skills Books'
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
-          sectionName: 'Sexy Time'
+          sectionName: 'Couple Skills Books'
+          isSequential: true
         messageSettings:
           channelHandle: '@notifyer_quotes'
           disablePreview: false
-          titlePrefix: '🍑 #SexyTime 🍆'
+          titlePrefix: 'Next weekend, #CatchUpWith...'
   - schedule:
       rate: cron(0 20 ? * FRI-SAT *)
       name: 'notifyer-weekend-psalms'
@@ -59,6 +75,7 @@ prod:
         onenoteSettings:
           notebookName: '2nd Brain'
           sectionName: 'The Psalms'
+          isSequential: true
         messageSettings:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
