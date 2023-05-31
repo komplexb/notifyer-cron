@@ -5,7 +5,7 @@ frameworkVersion: '2'
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   memorySize: 512 # optional, in MB, default is 1024
   timeout: 60
   stage: ${opt:stage,'dev'}
