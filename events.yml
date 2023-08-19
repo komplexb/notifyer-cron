@@ -9,7 +9,7 @@ dev:
           notebookName: '2nd Brain'
           sectionName: 'Sexy Time'
         messageSettings:
-          channelHandle: '@notifyer_quotes_dev'
+          channelHandle: '@PnBCoupleSkills'
           disablePreview: false
           titlePrefix: '🍑 Position of the Week 🍆'
   - schedule:
@@ -43,7 +43,7 @@ archive:
 
 prod:
   - schedule:
-      rate: cron(0 7 8,22 * ? *)
+      rate: cron(0 7 1,15 * ? *)
       name: 'stay-in-touch'
       description: 'Stay In Touch'
       input:
@@ -55,18 +55,44 @@ prod:
           disablePreview: false
           titlePrefix: 'Next weekend, #CatchUpWith...'
   - schedule:
-      rate: cron(0 7 8,22 * ? *)
-      name: 'couple-skills-books'
-      description: 'Couple Skills Books'
+      enabled: false
+      rate: cron(0 7 7,21 * ? *)
+      name: 'marriage-books'
+      description: 'Marriage Books'
       input:
         onenoteSettings:
           notebookName: '2nd Brain'
-          sectionName: 'Couple Skills Books'
+          sectionName: 'Marriage Books'
           isSequential: true
         messageSettings:
-          channelHandle: '@notifyer_quotes'
+          channelHandle: '@PnBCoupleSkills'
           disablePreview: false
-          titlePrefix: 'Next weekend, #CatchUpWith...'
+          titlePrefix: '#marriage-books'
+  - schedule:
+      rate: cron(0 7 7,21 * ? *)
+      name: 'CoupleSkills'
+      description: 'Couple Skills'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Couple Skills'
+          isSequential: true
+        messageSettings:
+          channelHandle: '@PnBCoupleSkills'
+          disablePreview: false
+          titlePrefix: '#CoupleSkills'
+  - schedule:
+      rate: cron(0 7 8,22 * ? *)
+      name: 'PillowTalk'
+      description: 'Pillow Talk'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Sexy Time'
+        messageSettings:
+          channelHandle: '@PnBCoupleSkills'
+          disablePreview: false
+          titlePrefix: '#PillowTalk'
   - schedule:
       rate: cron(0 20 ? * FRI-SAT *)
       name: 'notifyer-weekend-psalms'
@@ -94,6 +120,7 @@ prod:
           titlePrefix: '#votd'
           showEditLink: true
   - schedule:
+      enabled: false
       rate: cron(0 20 ? * FRI-SAT *)
       name: 'notifyer-mental-health'
       description: 'Mental Health'
@@ -106,6 +133,21 @@ prod:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
           titlePrefix: '#mental-health'
+          showEditLink: true
+  - schedule:
+      enabled: true
+      rate: cron(0 20 ? * FRI-SAT *)
+      name: 'notifyer-schema-therapy'
+      description: 'Schema Therapy'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Schema Therapy'
+          isSequential: true
+        messageSettings:
+          channelHandle: '@bb_2nd_brain'
+          disablePreview: false
+          titlePrefix: '#BetterSelf'
           showEditLink: true
   - schedule:
       rate: cron(0 10 ? * SUN-THUR *)
