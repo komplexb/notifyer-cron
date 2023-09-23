@@ -82,6 +82,7 @@ prod:
           disablePreview: false
           titlePrefix: '#CoupleSkills'
   - schedule:
+      enabled: false
       rate: cron(0 7 8,22 * ? *)
       name: 'PillowTalk'
       description: 'Pillow Talk'
@@ -146,7 +147,7 @@ prod:
           isSequential: true
         messageSettings:
           channelHandle: '@bb_2nd_brain'
-          disablePreview: false
+          disablePreview: true
           titlePrefix: '#BetterSelf'
           showEditLink: true
   - schedule:
