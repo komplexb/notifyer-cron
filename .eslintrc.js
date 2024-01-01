@@ -6,7 +6,7 @@ module.exports = {
     node: true,
     es6: true
   },
-  plugins: ['prettier', 'standard'],
+  plugins: ['prettier', 'standard', 'clean-code'],
   extends: ['prettier-standard'],
   rules: {
     // allow paren-less arrow functions
@@ -19,6 +19,7 @@ module.exports = {
     'no-mixed-spaces-and-tabs': 1,
     indent: 1,
     'brace-style': 1,
-    'no-trailing-spaces': 1
+    'no-trailing-spaces': 1,
+    'no-undef': 1
   }
 }
