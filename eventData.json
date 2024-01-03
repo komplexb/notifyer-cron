@@ -1,13 +1,13 @@
 {
   "onenoteSettings": {
     "notebookName": "2nd Brain",
-    "sectionName": "Verses",
-    "isSequential": true
+    "sectionName": "Test",
+    "isSequential": false
   },
   "messageSettings": {
     "channelHandle": "@notifyer_quotes_dev",
     "disablePreview": true,
     "titlePrefix": "Test",
-    "showEditLink": true
+    "showEditLink": false
   }
 }
