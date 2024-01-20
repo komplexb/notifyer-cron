@@ -33,12 +33,50 @@ async function getItem(itemName, parse = false) {
   try {
     const data = await documentClient.get(params).promise()
     console.log(`Getting '${itemName}'`)
+
     return parse ? JSON.parse(data.Item[itemName]) : data.Item[itemName]
   } catch (err) {
     console.error(`Error getting db item: '${itemName}'`)
     console.error(err)
-    return err
+    return null
   }
+}
+
+/**
+ * Retrieves the settings for a given item name.
+ * create default db values for settings if they don't exist
+ * @param {string} itemName - The name of the item.
+ * @param {*} defaultVal - The default value to set if the item does not exist.
+ * @param {boolean} [parse=false] - Indicates whether to parse the retrieved item.
+ * @returns {Promise<*>} - The retrieved settings.
+ * @throws {Error} - If the item name is not provided.
+ */
+async function getSettings(itemName, defaultVal, parse = false) {
+  if(!itemName) throw new Error('Name is required');
+
+  let data;
+  try {
+    console.log(`Getting settings for '${itemName}'`)
+    data = await getItem(itemName, parse);
+  } catch (error) {
+    console.error(`Failed to get item: ${itemName}`, error);
+    return null
+  }
+
+  if (!data) {
+    console.log(`Creating default settings for '${itemName}'`)
+    let newData;
+    try {
+      await setItem(itemName, defaultVal)
+      newData = await getItem(itemName, parse)
+    } catch (error) {
+      console.error(`Failed to set item: ${itemName}`, error)
+      return null
+    }
+    return newData
+  }
+
+  return data
 }
 
 /**
@@ -61,7 +99,7 @@ async function setItem(itemName, data) {
   }
 
   try {
-    const data = await documentClient.update(params).promise()
+    await documentClient.update(params).promise()
     console.log(`Attribute '${itemName}' Updated`)
   } catch (err) {
     console.error(`Error setting db item: '${itemName}'`)
@@ -72,5 +110,6 @@ async function setItem(itemName, data) {
 
 module.exports = {
   getItem,
-  setItem
+  setItem,
+  getSettings
 }
