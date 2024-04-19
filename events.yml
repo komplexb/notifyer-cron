@@ -57,7 +57,7 @@ prod:
           showEditLink: true
   - schedule:
       rate: cron(0 7 ? * FRI *)
-      name: 'Coles Dinner'
+      name: 'coles-dinner'
       description: 'Coles Dinner'
       input:
         onenoteSettings:
@@ -70,7 +70,7 @@ prod:
           showEditLink: true
   - schedule:
       rate: cron(0 7 ? * FRI#1/4 *)
-      name: 'Something Different 1'
+      name: 'something-different-1'
       description: 'Something Different 1'
       input:
         onenoteSettings:
@@ -83,7 +83,7 @@ prod:
           showEditLink: true
   - schedule:
       rate: cron(0 7 ? * FRI#3/4 *)
-      name: 'Something Different 2'
+      name: 'something-different-2'
       description: 'Something Different 2'
       input:
         onenoteSettings:
@@ -96,7 +96,7 @@ prod:
           showEditLink: true
   - schedule:
       rate: cron(0 7 ? * FRI#2/4 *)
-      name: 'Jamaican Dish 1'
+      name: 'jamaican-dish-1'
       description: 'Jamaican Dish 1'
       input:
         onenoteSettings:
@@ -109,7 +109,7 @@ prod:
           showEditLink: true
   - schedule:
       rate: cron(0 7 ? * FRI#4/4 *)
-      name: 'Jamaican Dish 2'
+      name: 'jamaican-dish-2'
       description: 'Jamaican Dish 2'
       input:
         onenoteSettings:
