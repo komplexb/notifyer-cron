@@ -6,40 +6,12 @@ dev:
       rate: rate(1 minute)
       input:
         onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'Sexy Time'
-        messageSettings:
-          channelHandle: '@PnBCoupleSkills'
-          disablePreview: false
-          titlePrefix: '🍑 Position of the Week 🍆'
-  - schedule:
-      rate: cron(0 2 ? * MON-FRI *)
-      name: 'weekday-wellness'
-      description: 'Week Day Wellness | Sydney | AEDT'
-      input:
-        onenoteSettings:
           notebookName: 'P n B'
           sectionName: 'Tek Care'
         messageSettings:
           channelHandle: '@notifyer_quotes'
           disablePreview: false
           titlePrefix: '🧘🏾‍♀️ #YourWellness 💡'
-
-archive:
-  - schedule:
-    rate: cron(0 10 2,16 * ? *)
-    name: 'sexy-time'
-    description: 'Intimacy Tips'
-    input:
-      onenoteSettings:
-        notebookName: '2nd Brain'
-        sectionName: 'Sexy Time'
-      messageSettings:
-        channelHandle: '@notifyer_quotes'
-        disablePreview: false
-        titlePrefix: '🍑 #SexyTime 🍆'
-
-
 
 prod:
   - schedule:

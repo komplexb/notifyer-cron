@@ -1,11 +1,11 @@
 # Reference: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
 
 service: notifyer-cron
-frameworkVersion: '2'
+frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
   memorySize: 512 # optional, in MB, default is 1024
   timeout: 60
   stage: ${opt:stage,'dev'}
