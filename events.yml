@@ -15,6 +15,84 @@ dev:
 
 prod:
   - schedule:
+      rate: cron(0 7 ? * FRI *)
+      name: 'Brekkie'
+      description: 'Weekly Breakfast'
+      input:
+        onenoteSettings:
+          notebookName: 'Recipes'
+          sectionName: 'Brekkie Ideas'
+        messageSettings:
+          channelHandle: '@nyammingz'
+          disablePreview: false
+          titlePrefix: '#Brekkie'
+          showEditLink: true
+  - schedule:
+      rate: cron(0 7 ? * FRI *)
+      name: 'coles-dinner'
+      description: 'Coles Dinner'
+      input:
+        onenoteSettings:
+          notebookName: 'Recipes'
+          sectionName: 'Coles Dinners'
+        messageSettings:
+          channelHandle: '@nyammingz'
+          disablePreview: false
+          titlePrefix: '#Dinner'
+          showEditLink: true
+  - schedule:
+      rate: cron(0 7 1-7 * ? *)
+      name: 'something-different-1'
+      description: 'Something Different 1'
+      input:
+        onenoteSettings:
+          notebookName: 'Recipes'
+          sectionName: 'Dinners'
+        messageSettings:
+          channelHandle: '@nyammingz'
+          disablePreview: false
+          titlePrefix: '#Dinner'
+          showEditLink: true
+  - schedule:
+      rate: cron(0 7 15-21 * ? *)
+      name: 'something-different-2'
+      description: 'Something Different 2'
+      input:
+        onenoteSettings:
+          notebookName: 'Recipes'
+          sectionName: 'Dinners'
+        messageSettings:
+          channelHandle: '@nyammingz'
+          disablePreview: false
+          titlePrefix: '#Dinner'
+          showEditLink: true
+  - schedule:
+      rate: cron(0 7 8-14 * ? *)
+      name: 'jamaican-dish-1'
+      description: 'Jamaican Dish 1'
+      input:
+        onenoteSettings:
+          notebookName: 'Recipes'
+          sectionName: 'Jamaican'
+        messageSettings:
+          channelHandle: '@nyammingz'
+          disablePreview: false
+          titlePrefix: '#JamaicanDish'
+          showEditLink: true
+  - schedule:
+      rate: cron(0 7 22-28 * ? *)
+      name: 'jamaican-dish-2'
+      description: 'Jamaican Dish 2'
+      input:
+        onenoteSettings:
+          notebookName: 'Recipes'
+          sectionName: 'Jamaican'
+        messageSettings:
+          channelHandle: '@nyammingz'
+          disablePreview: false
+          titlePrefix: '#JamaicanDish'
+          showEditLink: true
+  - schedule:
       rate: cron(0 7 1,15 * ? *)
       name: 'stay-in-touch'
       description: 'Stay In Touch'
@@ -34,6 +112,7 @@ prod:
         onenoteSettings:
           notebookName: 'P n B'
           sectionName: 'PCM Verses'
+          isSequential: true
         messageSettings:
           channelHandle: '@notifyer_quotes'
           disablePreview: true
@@ -113,6 +192,7 @@ prod:
         onenoteSettings:
           notebookName: 'P n B'
           sectionName: 'PCM Prayers'
+          isSequential: true
         messageSettings:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
