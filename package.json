@@ -12,7 +12,7 @@
     "refresh": "sls invoke local -f refresh",
     "remove": "sls remove --stage prod",
     "logs": "sls logs -f app --tail",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "author": "Byron Buckley",
   "license": "ISC",
