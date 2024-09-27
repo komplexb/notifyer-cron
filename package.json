@@ -6,7 +6,7 @@
   "scripts": {
     "app": "sls invoke local -f app",
     "deploy": "sls deploy --stage prod",
-    "_predeploy": "npm run remove",
+    "predeploy": "npm run remove",
     "dev": "sls invoke local -f app --watch --path ./eventData.json",
     "offline": "sls offline start --port 4500",
     "refresh": "sls invoke local -f refresh",
