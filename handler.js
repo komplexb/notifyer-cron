@@ -44,37 +44,36 @@ const app = async (event, context) => {
     ...onenoteSettings
   }
 
-  const resp = await initCache(onenoteSettings.sectionHandle) // setup the files needed for the app to work
-    .then(() => refreshToken()) // refresh the tokens needed for MS Graph Calls
-    .then(() => {
-      if (!hasValidToken()) {
-        return deviceLogin()
-      }
-    })
-    .then(() => {
-      return getNote(onenoteSettings)
-    })
-    .then(note => {
-      if (typeof note === 'undefined') {
-        throw new Error()
-      }
-      return notify.withTelegram(
-        note,
-        messageSettings
-      )
-    })
-    .catch(err => {
-      console.log(
-        'Ooops!',
-        `Can't seem to find any notes here. Please check if you created a section called '${onenoteSettings.sectionName}', add some notes.`
-      )
-      console.error('App: Check Logs', err)
-      return {
-        status: 400,
-        title: 'Error',
-        body: err
-      }
-    })
+  const resp = await initCache(onenoteSettings.sectionHandle)
+  .then(() => refreshToken())
+  .then(tokenResponse => {
+    if (!tokenResponse || !hasValidToken()) {
+      console.log('Token still invalid after refresh, initiating device login');
+      return deviceLogin();
+    }
+    return tokenResponse;
+  })
+  .then(() => getNote(onenoteSettings))
+  .then(note => {
+    if (typeof note === 'undefined') {
+      throw new Error('Note is undefined');
+    }
+    return notify.withTelegram(note, messageSettings);
+  })
+  .catch(err => {
+    console.log(
+      'Ooops!',
+      `Can't seem to find any notes here. Please check if you created a section called '${onenoteSettings.sectionName}', add some notes.`
+    );
+    console.error('App: Check Logs', err);
+    return {
+      status: 400,
+      title: 'Error',
+      body: err
+    };
+  });
+
+
 
   return {
     status: resp.status,
