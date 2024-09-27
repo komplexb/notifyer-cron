@@ -41,7 +41,7 @@ prod:
           titlePrefix: '#Dinner'
           showEditLink: true
   - schedule:
-      rate: cron(0 7 ? * FRI#1/4 *)
+      rate: cron(0 7 1-7 * ? *)
       name: 'something-different-1'
       description: 'Something Different 1'
       input:
@@ -54,7 +54,7 @@ prod:
           titlePrefix: '#Dinner'
           showEditLink: true
   - schedule:
-      rate: cron(0 7 ? * FRI#3/4 *)
+      rate: cron(0 7 15-21 * ? *)
       name: 'something-different-2'
       description: 'Something Different 2'
       input:
@@ -67,7 +67,7 @@ prod:
           titlePrefix: '#Dinner'
           showEditLink: true
   - schedule:
-      rate: cron(0 7 ? * FRI#2/4 *)
+      rate: cron(0 7 8-14 * ? *)
       name: 'jamaican-dish-1'
       description: 'Jamaican Dish 1'
       input:
@@ -80,7 +80,7 @@ prod:
           titlePrefix: '#JamaicanDish'
           showEditLink: true
   - schedule:
-      rate: cron(0 7 ? * FRI#4/4 *)
+      rate: cron(0 7 22-28 * ? *)
       name: 'jamaican-dish-2'
       description: 'Jamaican Dish 2'
       input:
