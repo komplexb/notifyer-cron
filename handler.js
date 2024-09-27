@@ -23,13 +23,13 @@ async function initCache(sectionHandle) {
   const onenote = await db.getItem('onenote', true)
   localStorage.setItem('onenote', onenote)
 
-  const count = await db.getItem(`${sectionHandle}_section_count`)
+  const count = await db.getSettings(`${sectionHandle}_section_count`, "0")
   localStorage.setItem(`${sectionHandle}_section_count`, count)
 
-  const lastPage = await db.getItem(`${sectionHandle}_last_page`)
+  const lastPage = await db.getSettings(`${sectionHandle}_last_page`, "-1")
   localStorage.setItem(`${sectionHandle}_last_page`, lastPage)
 
-  const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || []
+  const recent = (await db.getSettings(`recent_${sectionHandle}`, "[]", true))
   localStorage.setItem(`recent_${sectionHandle}`, recent)
 
   console.log('Restore localStorage')
