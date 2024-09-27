@@ -6,7 +6,7 @@
   },
   "messageSettings": {
     "channelHandle": "@notifyer_quotes_dev",
-    "disablePreview": true,
+    "disablePreview": false,
     "titlePrefix": "Test",
     "showEditLink": false
   }

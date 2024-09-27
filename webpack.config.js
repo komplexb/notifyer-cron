@@ -5,7 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: slsw.lib.entries,
-  target: 'node',
+  target: 'node18',
   mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
   stats: 'minimal',
   devtool: 'nosources-source-map',
@@ -13,7 +13,13 @@ module.exports = {
     hints: false
   },
   resolve: {
-    extensions: ['.js', '.json']
+    extensions: ['.js', '.json'],
+    fallback: {
+      crypto: false
+    },
+    alias: {
+      hexoid: 'hexoid/dist/index.js'
+    }
   },
   output: {
     libraryTarget: 'commonjs2',
@@ -28,5 +34,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [{ from: 'tmp/**/*' }]
     })
-  ]
+  ],
+  node: {
+    __dirname: true,
+    __filename: true
+  }
 }
