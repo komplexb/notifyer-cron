@@ -208,7 +208,7 @@ prod:
           showEditLink: true
   - schedule:
       enabled: true
-      rate: cron(0 23 ? * MON-FRI *) # weekdays at 9am
+      rate: cron(0 23:15 ? * MON-FRI *) # weekdays at 9am
       name: 'work-ethic'
       description: 'Work Ethic'
       input:
@@ -246,4 +246,21 @@ prod:
           channelHandle: '@bb_2nd_brain'
           disablePreview: false
           titlePrefix: '#CatchUpWith...'
-
+# schedule with time zone
+  # - eventBridge:
+  #     name: work-ethic
+  #     description: 'Work Ethic'
+  #     schedule:
+  #       timezone: Australia/Sydney
+  #       rate: cron(0 9 ? * MON-FRI *)
+  #     enabled: true
+  #     input:
+  #       onenoteSettings:
+  #         notebookName: '2nd Brain'
+  #         sectionName: 'Work Ethic'
+  #         isSequential: false
+  #       messageSettings:
+  #         channelHandle: '@bb_2nd_brain'
+  #         disablePreview: true
+  #         titlePrefix: '#work-ethic'
+  #         showEditLink: true
