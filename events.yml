@@ -14,6 +14,7 @@ dev:
           titlePrefix: '🧘🏾‍♀️ #YourWellness 💡'
 
 prod:
+# PNB
   - schedule:
       rate: cron(0 7 ? * FRI *)
       name: 'Brekkie'
@@ -41,7 +42,7 @@ prod:
           titlePrefix: '#Dinner'
           showEditLink: true
   - schedule:
-      rate: cron(0 7 1-7 * ? *)
+      rate: cron(0 7 1,15 * ? *)
       name: 'something-different-1'
       description: 'Something Different 1'
       input:
@@ -54,35 +55,9 @@ prod:
           titlePrefix: '#Dinner'
           showEditLink: true
   - schedule:
-      rate: cron(0 7 15-21 * ? *)
-      name: 'something-different-2'
-      description: 'Something Different 2'
-      input:
-        onenoteSettings:
-          notebookName: 'Recipes'
-          sectionName: 'Dinners'
-        messageSettings:
-          channelHandle: '@nyammingz'
-          disablePreview: false
-          titlePrefix: '#Dinner'
-          showEditLink: true
-  - schedule:
-      rate: cron(0 7 8-14 * ? *)
+      rate: cron(0 7 8,21 * ? *)
       name: 'jamaican-dish-1'
       description: 'Jamaican Dish 1'
-      input:
-        onenoteSettings:
-          notebookName: 'Recipes'
-          sectionName: 'Jamaican'
-        messageSettings:
-          channelHandle: '@nyammingz'
-          disablePreview: false
-          titlePrefix: '#JamaicanDish'
-          showEditLink: true
-  - schedule:
-      rate: cron(0 7 22-28 * ? *)
-      name: 'jamaican-dish-2'
-      description: 'Jamaican Dish 2'
       input:
         onenoteSettings:
           notebookName: 'Recipes'
@@ -105,7 +80,8 @@ prod:
           disablePreview: false
           titlePrefix: 'Next weekend, #CatchUpWith...'
   - schedule:
-      rate: cron(0 3 1/2 * ? *)
+      enabled: false
+      rate: cron(0 3 1/2 * ? *) # every other day
       name: 'notifyer-pcm-verses'
       description: 'PCM Verses'
       input:
@@ -133,7 +109,7 @@ prod:
           disablePreview: false
           titlePrefix: '#marriage-books'
   - schedule:
-      rate: cron(0 7 7,21 * ? *)
+      rate: cron(0 7 8,21 * ? *)
       name: 'CoupleSkills'
       description: 'Couple Skills'
       input:
@@ -145,20 +121,10 @@ prod:
           channelHandle: '@PnBCoupleSkills'
           disablePreview: false
           titlePrefix: '#CoupleSkills'
+
+# PERSONAL
   - schedule:
       enabled: false
-      rate: cron(0 7 8,22 * ? *)
-      name: 'PillowTalk'
-      description: 'Pillow Talk'
-      input:
-        onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'Sexy Time'
-        messageSettings:
-          channelHandle: '@PnBCoupleSkills'
-          disablePreview: false
-          titlePrefix: '#PillowTalk'
-  - schedule:
       rate: cron(0 20 ? * FRI-SAT *)
       name: 'notifyer-weekend-psalms'
       description: 'Psalms | Sydney | AEDT'
@@ -197,21 +163,6 @@ prod:
           channelHandle: '@bb_2nd_brain'
           disablePreview: true
           titlePrefix: 'Pray 4 Bae'
-          showEditLink: true
-  - schedule:
-      enabled: false
-      rate: cron(0 20 ? * FRI-SAT *)
-      name: 'notifyer-mental-health'
-      description: 'Mental Health'
-      input:
-        onenoteSettings:
-          notebookName: '2nd Brain'
-          sectionName: 'Mental Health'
-          isSequential: true
-        messageSettings:
-          channelHandle: '@bb_2nd_brain'
-          disablePreview: true
-          titlePrefix: '#mental-health'
           showEditLink: true
   - schedule:
       enabled: true
@@ -256,7 +207,22 @@ prod:
           titlePrefix: '#qotd'
           showEditLink: true
   - schedule:
-      rate: cron(15 8 ? * SUN *)
+      enabled: true
+      rate: cron(0 23 ? * MON-FRI *) # weekdays at 9am
+      name: 'work-ethic'
+      description: 'Work Ethic'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Work Ethic'
+          isSequential: true
+        messageSettings:
+          channelHandle: '@bb_2nd_brain'
+          disablePreview: true
+          titlePrefix: '#work-ethic'
+          showEditLink: true
+  - schedule:
+      rate: cron(15 1,15 ? * SUN *)
       name: 'notifyer-love-tips'
       description: 'Sunday Nights | Sydney | AEDT'
       input:
@@ -268,4 +234,16 @@ prod:
           disablePreview: true
           titlePrefix: '#lovetips'
           showEditLink: true
+  - schedule:
+      rate: cron(0 7 1,15 * ? *)
+      name: 'catch-up-with-my-friends'
+      description: 'Catch Up with My Friends'
+      input:
+        onenoteSettings:
+          notebookName: '2nd Brain'
+          sectionName: 'Catch Up with My Friends'
+        messageSettings:
+          channelHandle: '@bb_2nd_brain'
+          disablePreview: false
+          titlePrefix: '#CatchUpWith...'
 
