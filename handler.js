@@ -11,28 +11,32 @@ const { snakeCase } = require("snake-case");
  * Seed the MSAL Key Cache and localStorage with the latest from the database
  */
 async function initCache(sectionHandle) {
-  // populate cache with db contents
-  const data = await db.getItem('cache')
-  await fs
-    .writeFile(process.env.CACHE_PATH, data)
-    .then(console.log('Restore Cache'))
+  try {
+    // populate cache with db contents
+    const data = await db.getItem('cache')
+    await fs.writeFile(process.env.CACHE_PATH, data)
+    console.log('Restore Cache')
 
-  // populate local storage with login contents
-  // coerced to json
-  localStorage.initStore();
-  const onenote = await db.getItem('onenote', true)
-  localStorage.setItem('onenote', onenote)
+    // populate local storage with login contents
+    // coerced to json
+    localStorage.initStore();
+    const onenote = await db.getItem('onenote', true)
+    localStorage.setItem('onenote', onenote)
 
-  const count = await db.getItem(`${sectionHandle}_section_count`)
-  localStorage.setItem(`${sectionHandle}_section_count`, count)
+    const count = await db.getItem(`${sectionHandle}_section_count`)
+    localStorage.setItem(`${sectionHandle}_section_count`, count)
 
-  const lastPage = await db.getItem(`${sectionHandle}_last_page`)
-  localStorage.setItem(`${sectionHandle}_last_page`, lastPage)
+    const lastPage = await db.getItem(`${sectionHandle}_last_page`)
+    localStorage.setItem(`${sectionHandle}_last_page`, lastPage)
 
-  const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || []
-  localStorage.setItem(`recent_${sectionHandle}`, recent)
+    const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || []
+    localStorage.setItem(`recent_${sectionHandle}`, recent)
 
-  console.log('Restore localStorage')
+    console.log('Restore localStorage')
+  } catch (err) {
+    console.error('Error initializing cache', err);
+    throw err;
+  }
 }
 
 const app = async (event, context) => {
@@ -48,8 +52,7 @@ const app = async (event, context) => {
   .then(() => refreshToken())
   .then(tokenResponse => {
     if (!tokenResponse || !hasValidToken()) {
-      console.log('Token still invalid after refresh, initiating device login');
-      return deviceLogin();
+      throw new Error('Token refresh failed - device login required');
     }
     return tokenResponse;
   })
@@ -60,20 +63,37 @@ const app = async (event, context) => {
     }
     return notify.withTelegram(note, messageSettings);
   })
-  .catch(err => {
-    console.log(
-      'Ooops!',
-      `Can't seem to find any notes here. Please check if you created a section called '${onenoteSettings.sectionName}', add some notes.`
-    );
+  .catch(async err => {
     console.error('App: Check Logs', err);
+    const errorMessage = err.errorMessage || err.message || String(err);
+
+    if (err.message === 'Token refresh failed - device login required') {
+      try {
+        await deviceLogin();
+      } catch (loginErr) {
+        const loginErrorMsg = loginErr.errorMessage || loginErr.message || String(loginErr);
+        await notify.sendNoteToTelegram(
+          `Device login failed: ${loginErrorMsg}`,
+          process.env.ADMIN_TELEGRAM_CHANNEL,
+          null,
+          true
+        );
+      }
+    } else {
+      await notify.sendNoteToTelegram(
+        errorMessage,
+        process.env.ADMIN_TELEGRAM_CHANNEL,
+        null,
+        true
+      );
+    }
+
     return {
       status: 400,
       title: 'Error',
-      body: err
+      body: errorMessage
     };
   });
-
-
 
   return {
     status: resp.status,
