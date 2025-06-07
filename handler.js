@@ -1,4 +1,4 @@
-const { deviceLogin, hasValidToken, refreshToken } = require('./lib/auth')
+const { deviceLogin, hasValidToken, refreshToken, persistCache } = require('./lib/auth')
 const { getNote } = require('./lib/onenote')
 const notify = require('./lib/notify')
 const localStorage = require('./lib/store')
@@ -52,11 +52,21 @@ const app = async (event, context) => {
   }
 
   const resp = await initCache(onenoteSettings.sectionHandle)
-  .then(() => refreshToken())
-  .then(tokenResponse => {
+  .then(() => {
+    console.log('Cache initialized, checking token validity');
+    return refreshToken();
+  })
+  .then(async tokenResponse => {
     if (!tokenResponse || !hasValidToken()) {
+      console.error('Token refresh returned invalid token');
       throw new Error('Token refresh failed - device login required');
     }
+    console.log('Token refresh successful, ensuring cache persistence');
+    
+    // Ensure cache is persisted after successful refresh
+    await persistCache();
+    
+    console.log('Proceeding with OneNote API calls');
     return tokenResponse;
   })
   .then(() => getNote(onenoteSettings))
@@ -72,9 +82,29 @@ const app = async (event, context) => {
 
     if (err.message === 'Token refresh failed - device login required') {
       try {
+        console.log('Attempting device login after token refresh failure');
         await deviceLogin();
+        console.log('Device login successful, manually persisting cache');
+        
+        // Ensure cache is persisted to DynamoDB
+        await persistCache();
+        
+        await notify.sendNoteToTelegram(
+          'Device login completed successfully. Authentication restored.',
+          process.env.ADMIN_TELEGRAM_CHANNEL,
+          null,
+          true
+        );
+        
+        // Return success after device login
+        return {
+          status: 200,
+          title: 'Authentication Restored',
+          body: 'Device login completed successfully'
+        };
       } catch (loginErr) {
         const loginErrorMsg = loginErr.errorMessage || loginErr.message || String(loginErr);
+        console.error('Device login failed:', loginErrorMsg);
         await notify.sendNoteToTelegram(
           `Device login failed: ${loginErrorMsg}`,
           process.env.ADMIN_TELEGRAM_CHANNEL,

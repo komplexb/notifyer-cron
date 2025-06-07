@@ -2,7 +2,7 @@
   "onenoteSettings": {
     "notebookName": "2nd Brain",
     "sectionName": "Test",
-    "isSequential": false
+    "isSequential": true
   },
   "messageSettings": {
     "channelHandle": "@notifyer_quotes_dev",
