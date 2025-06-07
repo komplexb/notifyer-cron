@@ -14,7 +14,10 @@ async function initCache(sectionHandle) {
   try {
     // populate cache with db contents
     const data = await db.getItem('cache')
-    await fs.writeFile(process.env.CACHE_PATH, data)
+    const path = require('path')
+    // Resolve to absolute path to handle webpack bundling context
+    const cachePath = path.resolve(process.env.CACHE_PATH)
+    await fs.writeFile(cachePath, data)
     console.log('Restore Cache')
 
     // populate local storage with login contents
