@@ -7,7 +7,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   memorySize: 512 # optional, in MB, default is 1024
-  timeout: 60
+  timeout: 300 # 5 minutes to accommodate device login flow
   stage: ${opt:stage,'dev'}
   region: ap-southeast-2
   profile: serverless

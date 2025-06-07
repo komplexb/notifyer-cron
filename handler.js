@@ -1,4 +1,4 @@
-const { deviceLogin, hasValidToken, refreshToken } = require('./lib/auth')
+const { hasValidToken, refreshToken, persistCache, deviceLogin } = require('./lib/auth')
 const { getNote } = require('./lib/onenote')
 const notify = require('./lib/notify')
 const localStorage = require('./lib/store')
@@ -13,29 +13,42 @@ const { snakeCase } = require("snake-case");
 async function initCache(sectionHandle) {
   try {
     // populate cache with db contents
-    const data = await db.getItem('cache')
-    const path = require('path')
-    // Resolve to absolute path to handle webpack bundling context
-    const cachePath = path.resolve(process.env.CACHE_PATH)
-    await fs.writeFile(cachePath, data)
-    console.log('Restore Cache')
+    const cacheData = db.getItem('cache')
+    console.log(`Retrieved cache data from DynamoDB: ${cacheData ? 'Data found' : 'No data'} (type: ${typeof cacheData}, length: ${cacheData?.length || 0})`)
+
+    if (cacheData && typeof cacheData === 'string' && cacheData.trim()) {
+      const path = require('path')
+      // Resolve to absolute path to handle webpack bundling context
+      const cachePath = path.resolve(process.env.CACHE_PATH)
+      await fs.writeFile(cachePath, cacheData)
+      console.log('Cache restored to file system')
+    } else {
+      console.warn(`No valid cache data found in DynamoDB - cacheData: ${JSON.stringify(cacheData)} (type: ${typeof cacheData})`)
+    }
 
     // populate local storage with login contents
     // coerced to json
     localStorage.initStore();
-    const onenote = await db.getItem('onenote', true)
-    localStorage.setItem('onenote', onenote)
+    const onenote = db.getItem('onenote', true)
+    console.log(`Retrieved OneNote data from DynamoDB: ${onenote ? 'Data found' : 'No data'}`)
 
-    const count = await db.getItem(`${sectionHandle}_section_count`)
+    if (onenote) {
+      localStorage.setItem('onenote', onenote)
+      console.log(`OneNote token expires: ${new Date(onenote.expiresOn)}, ExtExpires: ${new Date(onenote.extExpiresOn)}`)
+    }
+
+    const count = db.getItem(`${sectionHandle}_section_count`)
     localStorage.setItem(`${sectionHandle}_section_count`, count)
 
-    const lastPage = await db.getItem(`${sectionHandle}_last_page`)
+    const lastPage = db.getItem(`${sectionHandle}_last_page`)
     localStorage.setItem(`${sectionHandle}_last_page`, lastPage)
 
-    const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || []
-    localStorage.setItem(`recent_${sectionHandle}`, recent)
+    const recent = db.getItem(`recent_${sectionHandle}`, true) || []
+    // Ensure recent is always an array
+    const recentArray = Array.isArray(recent) ? recent : []
+    localStorage.setItem(`recent_${sectionHandle}`, recentArray)
 
-    console.log('Restore localStorage')
+    console.log('localStorage restoration completed')
   } catch (err) {
     console.error('Error initializing cache', err);
     throw err;
