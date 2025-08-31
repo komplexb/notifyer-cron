@@ -32,11 +32,9 @@ async function getItem(itemName, parse = false) {
 
   try {
     const data = await documentClient.get(params).promise()
-    console.log(`Getting '${itemName}'`)
     
     // Check if item exists and has the requested attribute
     if (!data.Item || data.Item[itemName] === undefined) {
-      console.log(`No data found for '${itemName}'`)
       return null
     }
     
@@ -76,7 +74,6 @@ async function setItem(itemName, data) {
 
   try {
     const result = await documentClient.update(params).promise()
-    console.log(`Attribute '${itemName}' Updated`)
     return result
   } catch (err) {
     console.error(`Error setting db item: '${itemName}'`)

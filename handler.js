@@ -19,13 +19,6 @@ async function initCache(sectionHandle) {
   try {
     // populate cache with db contents
     const cacheData = await db.getItem("cache");
-    console.log(
-      `Retrieved cache data from DynamoDB: ${
-        cacheData ? "Data found" : "No data"
-      } (type: ${typeof cacheData}, length: ${cacheData?.length || 0})`
-    );
-    console.log(`Cache data JSON: ${JSON.stringify(cacheData)}`);
-    console.log(`Cache data constructor: ${cacheData?.constructor?.name}`);
 
     // Handle corrupted cache data (object instead of string)
     if (
@@ -33,7 +26,6 @@ async function initCache(sectionHandle) {
       typeof cacheData === "object" &&
       Object.keys(cacheData).length === 0
     ) {
-      console.warn("Detected corrupted cache (empty object), clearing it");
       await db.setItem("cache", null); // Clear the corrupted cache
       cacheData = null;
     }
@@ -42,84 +34,22 @@ async function initCache(sectionHandle) {
       // Validate that we have proper MSAL cache structure
       try {
         const parsed = JSON.parse(cacheData);
-        console.log(`=== CACHE RESTORATION DEBUG ===`);
-        console.log(`Cache data length: ${cacheData.length}`);
-        console.log(`Parsed cache keys: ${Object.keys(parsed)}`);
-
-        if (parsed.AccessToken) {
-          const accessTokens = Object.keys(parsed.AccessToken);
-          console.log(`Access tokens count: ${accessTokens.length}`);
-          if (accessTokens.length > 0) {
-            const firstToken = parsed.AccessToken[accessTokens[0]];
-            console.log(
-              `First access token expires: ${new Date(
-                parseInt(firstToken.expires_on) * 1000
-              ).toISOString()}`
-            );
-            console.log(
-              `First access token ext expires: ${new Date(
-                parseInt(firstToken.extended_expires_on) * 1000
-              ).toISOString()}`
-            );
-          }
-        }
-
-        if (parsed.RefreshToken) {
-          const refreshTokens = Object.keys(parsed.RefreshToken);
-          console.log(`Refresh tokens count: ${refreshTokens.length}`);
-        }
-
         if (parsed.Account && parsed.RefreshToken && parsed.AccessToken) {
           const path = require("path");
           const cachePath = path.resolve(process.env.CACHE_PATH);
-          console.log(`Writing cache to: ${cachePath}`);
           await fs.writeFile(cachePath, cacheData);
-          console.log("✅ Valid MSAL cache restored to file system");
-
-          // Verify the file was written
-          const writtenData = await fs.readFile(cachePath, "utf-8");
-          console.log(
-            `✅ Verified written cache length: ${writtenData.length}`
-          );
-        } else {
-          console.warn(
-            "Invalid MSAL cache structure in DynamoDB, will start fresh"
-          );
-          console.warn(
-            `Missing sections: Account=${!!parsed.Account}, RefreshToken=${!!parsed.RefreshToken}, AccessToken=${!!parsed.AccessToken}`
-          );
         }
       } catch (parseError) {
-        console.warn(
-          "Cache data from DynamoDB is not valid JSON, will start fresh"
-        );
-        console.warn(`Parse error: ${parseError.message}`);
+        // Cache data is not valid JSON, will start fresh
       }
-    } else {
-      console.warn(
-        `No valid cache data found in DynamoDB - cacheData: ${JSON.stringify(
-          cacheData
-        )} (type: ${typeof cacheData})`
-      );
     }
 
     // populate local storage with login contents
     // coerced to json
     localStorage.initStore();
     const onenote = await db.getItem("onenote", true);
-    console.log(
-      `Retrieved OneNote data from DynamoDB: ${
-        onenote ? "Data found" : "No data"
-      }`
-    );
-
     if (onenote) {
       localStorage.setItem("onenote", onenote);
-      console.log(
-        `OneNote token expires: ${new Date(
-          onenote.expiresOn
-        )}, ExtExpires: ${new Date(onenote.extExpiresOn)}`
-      );
     }
 
     const count = await db.getItem(`${sectionHandle}_section_count`);
@@ -132,8 +62,6 @@ async function initCache(sectionHandle) {
     // Ensure recent is always an array
     const recentArray = Array.isArray(recent) ? recent : [];
     localStorage.setItem(`recent_${sectionHandle}`, recentArray);
-
-    console.log("localStorage restoration completed");
   } catch (err) {
     console.error("Error initializing cache", err);
     throw err;
