@@ -1,9 +1,4 @@
-const {
-  hasValidToken,
-  refreshToken,
-  persistCache,
-  deviceLogin,
-} = require("./lib/auth");
+const { hasValidToken, refreshToken, deviceLogin } = require("./lib/auth");
 const { getNote } = require("./lib/onenote");
 const notify = require("./lib/notify");
 const localStorage = require("./lib/store");
@@ -18,7 +13,13 @@ const { snakeCase } = require("snake-case");
 async function initCache(sectionHandle) {
   try {
     // populate cache with db contents
-    const cacheData = await db.getItem("cache");
+    let cacheData;
+    try {
+      cacheData = await db.getItem("cache");
+    } catch (error) {
+      // Cache not found in DB, will start fresh
+      cacheData = null;
+    }
 
     // Handle corrupted cache data (object instead of string)
     if (
@@ -47,28 +48,46 @@ async function initCache(sectionHandle) {
     // populate local storage with login contents
     // coerced to json
     localStorage.initStore();
-    const onenote = await db.getItem("onenote", true);
-    if (onenote) {
-      localStorage.setItem("onenote", onenote);
+
+    try {
+      const onenote = await db.getItem("onenote", true);
+      if (onenote) {
+        localStorage.setItem("onenote", onenote);
+      }
+    } catch (error) {
+      // OneNote data not found or corrupted, will be recreated on next auth
     }
 
-    const count = await db.getItem(`${sectionHandle}_section_count`);
-    localStorage.setItem(`${sectionHandle}_section_count`, count);
+    try {
+      const count = await db.getItem(`${sectionHandle}_section_count`);
+      localStorage.setItem(`${sectionHandle}_section_count`, count);
+    } catch (error) {
+      // Section count not found, will start from 0
+    }
 
-    const lastPage = await db.getItem(`${sectionHandle}_last_page`);
-    localStorage.setItem(`${sectionHandle}_last_page`, lastPage);
+    try {
+      const lastPage = await db.getItem(`${sectionHandle}_last_page`);
+      localStorage.setItem(`${sectionHandle}_last_page`, lastPage);
+    } catch (error) {
+      // Last page not found, will start fresh
+    }
 
-    const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || [];
-    // Ensure recent is always an array
-    const recentArray = Array.isArray(recent) ? recent : [];
-    localStorage.setItem(`recent_${sectionHandle}`, recentArray);
+    try {
+      const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || [];
+      // Ensure recent is always an array
+      const recentArray = Array.isArray(recent) ? recent : [];
+      localStorage.setItem(`recent_${sectionHandle}`, recentArray);
+    } catch (error) {
+      // Recent data not found, will start with empty array
+      localStorage.setItem(`recent_${sectionHandle}`, []);
+    }
   } catch (err) {
     console.error("Error initializing cache", err);
     throw err;
   }
 }
 
-const app = async (event, context) => {
+const app = async (event) => {
   let { onenoteSettings, messageSettings } = event;
 
   onenoteSettings = {

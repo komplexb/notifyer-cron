@@ -49,7 +49,7 @@ async function getItem(itemName, parse = false) {
   } catch (err) {
     console.error(`Error getting db item: '${itemName}'`)
     console.error(err)
-    return null // Return null instead of error object
+    throw err // Throw error for consistency with setItem
   }
 }
 
