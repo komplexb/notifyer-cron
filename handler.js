@@ -1,9 +1,9 @@
-const { deviceLogin, hasValidToken, refreshToken, persistCache } = require('./lib/auth')
-const { getNote } = require('./lib/onenote')
-const notify = require('./lib/notify')
-const localStorage = require('./lib/store')
-const { promises: fs } = require('fs')
-const db = require('./db/persist')
+const { hasValidToken, refreshToken, deviceLogin } = require("./lib/auth");
+const { getNote } = require("./lib/onenote");
+const notify = require("./lib/notify");
+const localStorage = require("./lib/store");
+const { promises: fs } = require("fs");
+const db = require("./db/persist");
 const { snakeCase } = require("snake-case");
 
 /**
@@ -13,128 +13,144 @@ const { snakeCase } = require("snake-case");
 async function initCache(sectionHandle) {
   try {
     // populate cache with db contents
-    const data = await db.getItem('cache')
-    const path = require('path')
-    // Resolve to absolute path to handle webpack bundling context
-    const cachePath = path.resolve(process.env.CACHE_PATH)
-    await fs.writeFile(cachePath, data)
-    console.log('Restore Cache')
+    let cacheData;
+    try {
+      cacheData = await db.getItem("cache");
+    } catch (error) {
+      // Cache not found in DB, will start fresh
+      cacheData = null;
+    }
+
+    // Handle corrupted cache data (object instead of string)
+    if (
+      cacheData &&
+      typeof cacheData === "object" &&
+      Object.keys(cacheData).length === 0
+    ) {
+      await db.setItem("cache", null); // Clear the corrupted cache
+      cacheData = null;
+    }
+
+    if (cacheData && typeof cacheData === "string" && cacheData.trim()) {
+      // Validate that we have proper MSAL cache structure
+      try {
+        const parsed = JSON.parse(cacheData);
+        if (parsed.Account && parsed.RefreshToken && parsed.AccessToken) {
+          const path = require("path");
+          const cachePath = path.resolve(process.env.CACHE_PATH);
+          await fs.writeFile(cachePath, cacheData);
+        }
+      } catch (parseError) {
+        // Cache data is not valid JSON, will start fresh
+      }
+    }
 
     // populate local storage with login contents
     // coerced to json
     localStorage.initStore();
-    const onenote = await db.getItem('onenote', true)
-    localStorage.setItem('onenote', onenote)
 
-    const count = await db.getItem(`${sectionHandle}_section_count`)
-    localStorage.setItem(`${sectionHandle}_section_count`, count)
+    try {
+      const onenote = await db.getItem("onenote", true);
+      if (onenote) {
+        localStorage.setItem("onenote", onenote);
+      }
+    } catch (error) {
+      // OneNote data not found or corrupted, will be recreated on next auth
+    }
 
-    const lastPage = await db.getItem(`${sectionHandle}_last_page`)
-    localStorage.setItem(`${sectionHandle}_last_page`, lastPage)
+    try {
+      const count = await db.getItem(`${sectionHandle}_section_count`);
+      localStorage.setItem(`${sectionHandle}_section_count`, count);
+    } catch (error) {
+      // Section count not found, will start from 0
+    }
 
-    const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || []
-    localStorage.setItem(`recent_${sectionHandle}`, recent)
+    try {
+      const lastPage = await db.getItem(`${sectionHandle}_last_page`);
+      localStorage.setItem(`${sectionHandle}_last_page`, lastPage);
+    } catch (error) {
+      // Last page not found, will start fresh
+    }
 
-    console.log('Restore localStorage')
+    try {
+      const recent = (await db.getItem(`recent_${sectionHandle}`, true)) || [];
+      // Ensure recent is always an array
+      const recentArray = Array.isArray(recent) ? recent : [];
+      localStorage.setItem(`recent_${sectionHandle}`, recentArray);
+    } catch (error) {
+      // Recent data not found, will start with empty array
+      localStorage.setItem(`recent_${sectionHandle}`, []);
+    }
   } catch (err) {
-    console.error('Error initializing cache', err);
+    console.error("Error initializing cache", err);
     throw err;
   }
 }
 
-const app = async (event, context) => {
-  let { onenoteSettings, messageSettings } = event
+const app = async (event) => {
+  let { onenoteSettings, messageSettings } = event;
 
   onenoteSettings = {
     sectionHandle: snakeCase(onenoteSettings.sectionName),
     isSequential: false,
-    ...onenoteSettings
-  }
+    ...onenoteSettings,
+  };
 
   const resp = await initCache(onenoteSettings.sectionHandle)
-  .then(() => {
-    console.log('Cache initialized, checking token validity');
-    return refreshToken();
-  })
-  .then(async tokenResponse => {
-    if (!tokenResponse || !hasValidToken()) {
-      console.error('Token refresh returned invalid token');
-      throw new Error('Token refresh failed - device login required');
-    }
-    console.log('Token refresh successful, ensuring cache persistence');
-    
-    // Ensure cache is persisted after successful refresh
-    await persistCache();
-    
-    console.log('Proceeding with OneNote API calls');
-    return tokenResponse;
-  })
-  .then(() => getNote(onenoteSettings))
-  .then(note => {
-    if (typeof note === 'undefined') {
-      throw new Error('Note is undefined');
-    }
-    return notify.withTelegram(note, messageSettings);
-  })
-  .catch(async err => {
-    console.error('App: Check Logs', err);
-    const errorMessage = err.errorMessage || err.message || String(err);
+    .then(() => refreshToken())
+    .then((tokenResponse) => {
+      if (!tokenResponse || !hasValidToken()) {
+        throw new Error("Token refresh failed - device login required");
+      }
+      return tokenResponse;
+    })
+    .then(() => getNote(onenoteSettings))
+    .then((note) => {
+      if (typeof note === "undefined") {
+        throw new Error("Note is undefined");
+      }
+      return notify.withTelegram(note, messageSettings);
+    })
+    .catch(async (err) => {
+      console.error("App: Check Logs", err);
+      const errorMessage = err.errorMessage || err.message || String(err);
 
-    if (err.message === 'Token refresh failed - device login required') {
-      try {
-        console.log('Attempting device login after token refresh failure');
-        await deviceLogin();
-        console.log('Device login successful, manually persisting cache');
-        
-        // Ensure cache is persisted to DynamoDB
-        await persistCache();
-        
+      if (err.message === "Token refresh failed - device login required") {
+        try {
+          await deviceLogin();
+        } catch (loginErr) {
+          const loginErrorMsg =
+            loginErr.errorMessage || loginErr.message || String(loginErr);
+          await notify.sendNoteToTelegram(
+            `Device login failed: ${loginErrorMsg}`,
+            process.env.ADMIN_TELEGRAM_CHANNEL,
+            null,
+            true
+          );
+        }
+      } else {
         await notify.sendNoteToTelegram(
-          'Device login completed successfully. Authentication restored.',
-          process.env.ADMIN_TELEGRAM_CHANNEL,
-          null,
-          true
-        );
-        
-        // Return success after device login
-        return {
-          status: 200,
-          title: 'Authentication Restored',
-          body: 'Device login completed successfully'
-        };
-      } catch (loginErr) {
-        const loginErrorMsg = loginErr.errorMessage || loginErr.message || String(loginErr);
-        console.error('Device login failed:', loginErrorMsg);
-        await notify.sendNoteToTelegram(
-          `Device login failed: ${loginErrorMsg}`,
+          errorMessage,
           process.env.ADMIN_TELEGRAM_CHANNEL,
           null,
           true
         );
       }
-    } else {
-      await notify.sendNoteToTelegram(
-        errorMessage,
-        process.env.ADMIN_TELEGRAM_CHANNEL,
-        null,
-        true
-      );
-    }
 
-    return {
-      status: 400,
-      title: 'Error',
-      body: errorMessage
-    };
-  });
+      return {
+        status: 400,
+        title: "Error",
+        body: errorMessage,
+      };
+    });
 
   return {
     status: resp.status,
     title: resp.title,
-    body: resp.body
-  }
-}
+    body: resp.body,
+  };
+};
 
 module.exports = {
-  app
-}
+  app,
+};
