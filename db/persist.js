@@ -33,11 +33,25 @@ async function getItem(itemName, parse = false) {
   try {
     const data = await documentClient.get(params).promise()
     console.log(`Getting '${itemName}'`)
-    return parse ? JSON.parse(data.Item[itemName]) : data.Item[itemName]
+    
+    // Check if item exists and has the requested attribute
+    if (!data.Item || data.Item[itemName] === undefined) {
+      console.log(`No data found for '${itemName}'`)
+      return null
+    }
+    
+    const itemValue = data.Item[itemName]
+    
+    // Handle empty or null values
+    if (itemValue === null || itemValue === undefined) {
+      return null
+    }
+    
+    return parse ? JSON.parse(itemValue) : itemValue
   } catch (err) {
     console.error(`Error getting db item: '${itemName}'`)
     console.error(err)
-    return err
+    return null // Return null instead of error object
   }
 }
 
@@ -61,12 +75,13 @@ async function setItem(itemName, data) {
   }
 
   try {
-    const data = await documentClient.update(params).promise()
+    const result = await documentClient.update(params).promise()
     console.log(`Attribute '${itemName}' Updated`)
+    return result
   } catch (err) {
     console.error(`Error setting db item: '${itemName}'`)
     console.error(err)
-    return err
+    throw err // Throw error instead of returning it
   }
 }
 

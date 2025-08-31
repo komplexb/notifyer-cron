@@ -8,6 +8,7 @@
     "deploy": "sls deploy --stage prod",
     "predeploy": "npm run remove",
     "dev": "sls invoke local -f app --watch --path ./eventData.json",
+    "agentdev": "sls invoke local -f app --path ./eventData.json",
     "offline": "sls offline start --port 4500",
     "refresh": "sls invoke local -f refresh",
     "remove": "sls remove --stage prod",
