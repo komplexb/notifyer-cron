@@ -7,6 +7,7 @@
     "app": "sls invoke local -f app",
     "deploy": "sls deploy --stage prod",
     "predeploy": "npm run remove",
+    "remove-logs": "aws logs delete-log-group --log-group-name /aws/lambda/notifyer-cron-prod-app --region ap-southeast-2",
     "dev": "sls invoke local -f app --watch --path ./eventData.json",
     "agentdev": "sls invoke local -f app --path ./eventData.json",
     "offline": "sls offline start --port 4500",
