@@ -147,7 +147,7 @@ prod:
           titlePrefix: '#CoupleSkills'
   - schedule:
       enabled: true
-      rate: cron(0 10 ? * THUR *)
+      rate: cron(0 10 ? * 2/2 *)
       name: 'PillowTalk'
       description: 'Pillow Talk'
       input:
