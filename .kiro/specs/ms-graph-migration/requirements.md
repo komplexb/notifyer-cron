@@ -57,7 +57,7 @@ This feature involves migrating the existing OneNote API integration from direct
 #### Acceptance Criteria
 
 1. WHEN installing dependencies THEN the system SHALL add @microsoft/microsoft-graph-client and appropriate fetch polyfill
-2. WHEN the migration is complete THEN superagent dependency SHALL be removed if no longer needed elsewhere
+2. WHEN the migration is complete THEN superagent dependency SHALL be retained as it's still used for Telegram API calls
 3. WHEN the application starts THEN it SHALL import and configure the Graph SDK with proper authentication middleware
 4. WHEN making API calls THEN the system SHALL use the Graph SDK's fluent API instead of manual URL construction
 
