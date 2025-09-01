@@ -142,12 +142,12 @@ prod:
           sectionName: 'Couple Skills'
           isSequential: true
         messageSettings:
-          channelHandle: '@PnBCoupleSkills'
+          channelHandle: '@bb_2nd_brain'
           disablePreview: false
           titlePrefix: '#CoupleSkills'
   - schedule:
-      enabled: false
-      rate: cron(0 7 8,22 * ? *)
+      enabled: true
+      rate: cron(0 10 ? * 2/2 *)
       name: 'PillowTalk'
       description: 'Pillow Talk'
       input:
@@ -155,7 +155,7 @@ prod:
           notebookName: '2nd Brain'
           sectionName: 'Sexy Time'
         messageSettings:
-          channelHandle: '@PnBCoupleSkills'
+          channelHandle: '@bb_2nd_brain'
           disablePreview: false
           titlePrefix: '#PillowTalk'
   - schedule:
