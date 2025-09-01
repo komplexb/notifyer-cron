@@ -6,11 +6,17 @@
  * @onenote_section_count {String} local storage contents
  */
 
-const AWS = require('aws-sdk')
-AWS.config.update({ region: process.env.REGION })
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb')
+const { DynamoDBDocumentClient, GetCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb')
 
-const documentClient = new AWS.DynamoDB.DocumentClient({
-  apiVersion: '2012-10-08'
+const client = new DynamoDBClient({
+  region: process.env.REGION
+})
+
+const documentClient = DynamoDBDocumentClient.from(client, {
+  marshallOptions: {
+    removeUndefinedValues: true
+  }
 })
 
 /**
@@ -31,7 +37,7 @@ async function getItem(itemName, parse = false) {
   }
 
   try {
-    const data = await documentClient.get(params).promise()
+    const data = await documentClient.send(new GetCommand(params))
     
     // Check if item exists and has the requested attribute
     if (!data.Item || data.Item[itemName] === undefined) {
@@ -73,7 +79,7 @@ async function setItem(itemName, data) {
   }
 
   try {
-    const result = await documentClient.update(params).promise()
+    const result = await documentClient.send(new UpdateCommand(params))
     return result
   } catch (err) {
     console.error(`Error setting db item: '${itemName}'`)
