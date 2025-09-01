@@ -101,7 +101,7 @@
   - Ensure all tests pass with the new Graph SDK implementation
   - _Requirements: 2.1, 2.2, 2.3, 2.4_
 
-- [ ] 15. Performance testing and optimization
+- [x] 15. Performance testing and optimization
   - Measure response times for all OneNote operations with new implementation
   - Compare memory usage during image downloads
   - Test timeout behavior matches existing 120s response / 60s deadline limits
@@ -113,4 +113,16 @@
   - Update documentation to reflect that superagent is retained for Telegram operations
   - Clean up any unused imports or configuration related to OneNote operations
   - Update comments to reflect new Graph SDK implementation
+  - _Requirements: 5.2, 5.4_
+
+- [ ] 17. Add timeout configuration to Graph client
+  - Configure Graph SDK client with proper timeout middleware to match existing TIMEOUTS constants
+  - Set response timeout to 120 seconds and deadline timeout to 60 seconds
+  - Test timeout behavior under various network conditions
+  - _Requirements: 6.1, 6.2_
+
+- [ ] 18. Remove original implementation backup file
+  - Delete lib/onenote-original.js as it's no longer needed after successful migration
+  - Ensure no references to the original file exist in the codebase
+  - Update any documentation that might reference the original implementation
   - _Requirements: 5.2, 5.4_
