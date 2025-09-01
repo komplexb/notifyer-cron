@@ -142,7 +142,7 @@ prod:
           sectionName: 'Couple Skills'
           isSequential: true
         messageSettings:
-          channelHandle: '@bb_2nd_brain'
+          channelHandle: '@PnBCoupleSkills'
           disablePreview: false
           titlePrefix: '#CoupleSkills'
   - schedule:
