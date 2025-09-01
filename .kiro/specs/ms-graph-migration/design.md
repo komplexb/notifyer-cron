@@ -211,7 +211,7 @@ const client = Client.initWithMiddleware({
 - Implement comprehensive test suite
 - Run parallel testing to verify behavior
 - Performance testing and optimization
-- Remove superagent dependency if no longer needed
+- Keep superagent dependency as it's still used for Telegram API calls
 
 ## Configuration Changes
 

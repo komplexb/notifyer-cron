@@ -40,7 +40,9 @@
   },
   "dependencies": {
     "@azure/msal-node": "^2.16.2",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
     "chance": "^1.1.11",
+    "isomorphic-fetch": "^3.0.0",
     "node-html-parser": "^6.1.5",
     "node-localstorage": "^2.2.1",
     "serverless": "^3.31.0",
