@@ -28,6 +28,7 @@ prod:
           titlePrefix: '#Brekkie'
           showEditLink: true
   - schedule:
+      enabled: false
       rate: cron(0 7 ? * FRI *)
       name: 'coles-dinner'
       description: 'Coles Dinner'
@@ -41,6 +42,7 @@ prod:
           titlePrefix: '#Dinner'
           showEditLink: true
   - schedule:
+      enabled: false
       rate: cron(0 7 1-7 * ? *)
       name: 'something-different-1'
       description: 'Something Different 1'
@@ -54,6 +56,7 @@ prod:
           titlePrefix: '#Dinner'
           showEditLink: true
   - schedule:
+      enabled: false
       rate: cron(0 7 15-21 * ? *)
       name: 'something-different-2'
       description: 'Something Different 2'
@@ -80,6 +83,7 @@ prod:
           titlePrefix: '#JamaicanDish'
           showEditLink: true
   - schedule:
+      enabled: false
       rate: cron(0 7 22-28 * ? *)
       name: 'jamaican-dish-2'
       description: 'Jamaican Dish 2'
@@ -147,7 +151,7 @@ prod:
           titlePrefix: '#CoupleSkills'
   - schedule:
       enabled: true
-      rate: cron(0 10 ? * 2/2 *)
+      rate: cron(0 10 ? * FRI-SAT *)
       name: 'PillowTalk'
       description: 'Pillow Talk'
       input:
@@ -229,7 +233,7 @@ prod:
           titlePrefix: '#BetterSelf'
           showEditLink: true
   - schedule:
-      rate: cron(0 10 ? * SUN-THUR *)
+      rate: cron(0 7 ? * MON-FRI *)
       name: 'notifyer-mantras'
       description: 'Mantras | Sydney | AEDT'
       input:
@@ -243,7 +247,7 @@ prod:
           titlePrefix: '#mantras'
           showEditLink: true
   - schedule:
-      rate: cron(0 10 ? * SUN-THUR *)
+      rate: cron(0 7 ? * SAT,SUN *)
       name: 'notifyer-quotes'
       description: 'Quotes | Sydney | AEDT'
       input:
